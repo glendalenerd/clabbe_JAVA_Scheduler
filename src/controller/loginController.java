@@ -13,13 +13,58 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
+import src.utilities.utilityFunctions;
 
 /**
  * Controller for login menu
  * @author Chris Labbe
  */
-public class loginController {
+public class loginController implements Initializable {
+    @FXML
+    private TextField passField;
+    @FXML
+    private TextField userField;
+    @FXML
+    private Button exitButton;
+    @FXML
+    private Label passwordLabel;
+    @FXML
+    private Label userLabel;
+    @FXML
+    private Label loginTitle;
+    @FXML
+    private Button loginButton;
+    @FXML
+    private Label locationLabel;
+    @FXML
+    private Label userLocation;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        utilityFunctions.localeSet();
+        ZoneId currentZone = utilityFunctions.fetchZoneId();
+        userLocation.setText(String.valueOf(currentZone));
+        ResourceBundle languages = ResourceBundle.getBundle("src.Bundle", Locale.getDefault());
+        userLabel.setText(languages.getString("label.username"));
+        loginTitle.setText((languages.getString("label.login")));
+        locationLabel.setText(languages.getString("label.location"));
+        passwordLabel.setText(languages.getString("label.password"));
+        loginButton.setText(languages.getString("button.login"));
+        exitButton.setText(languages.getString("button.exit"));
+    }
+
+    public void loginButtonClick(ActionEvent click) throws IOException, SQLException {
+        String userName = userField.getText();
+        String password = passField.getText();
+        if (userName.isEmpty() || password.isEmpty()) {
+            utilityFunctions.warningAlert("User or Password field is empty");
+        }
+
+    }
 
 }

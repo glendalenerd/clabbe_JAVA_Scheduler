@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="src.controller.login"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.loginController">
+   <children>
+      <Label fx:id="loginTitle" layoutX="192.0" layoutY="14.0" text="Salon Appointment System">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="userLabel" layoutX="182.0" layoutY="105.0" prefHeight="27.0" prefWidth="46.0" text="User:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordLabel" layoutX="169.0" layoutY="158.0" text="Password:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userField" layoutX="271.0" layoutY="106.0" />
+      <TextField fx:id="passField" layoutX="271.0" layoutY="159.0" />
+      <Button fx:id="loginButton" layoutX="300.0" layoutY="206.0" mnemonicParsing="false" onAction="#loginButtonClick" text="Login" />
+      <Button fx:id="exitButton" layoutX="550.0" layoutY="360.0" mnemonicParsing="false" text="Exit" />
+      <Label fx:id="locationLabel" layoutX="14.0" layoutY="364.0" text="Location:" />
+      <Label fx:id="userLocation" layoutX="72.0" layoutY="364.0" text="userLocation" />
+   </children>
 </AnchorPane>
