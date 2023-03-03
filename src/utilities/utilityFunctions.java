@@ -1,8 +1,15 @@
 package src.utilities;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
@@ -37,5 +44,12 @@ public class utilityFunctions {
         return ZoneId.systemDefault();
     }
 
+    public static void menuOpen(ActionEvent event, String freshMenu) throws IOException {
+        Parent parent = FXMLLoader.load(utilityFunctions.class.getResource(freshMenu));
+        Scene newScene = new Scene(parent);
+        Stage newWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        newWindow.setScene(newScene);
+        newWindow.show();
+    }
 
 }

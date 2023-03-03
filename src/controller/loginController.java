@@ -64,7 +64,13 @@ public class loginController implements Initializable {
         if (userName.isEmpty() || password.isEmpty()) {
             utilityFunctions.warningAlert("User or Password field is empty");
         }
+        utilityFunctions.menuOpen(click, "../view/menu.fxml");
 
+    }
+    public void exitButtonClick(ActionEvent click) {
+        JDBC.closeConnection();
+        Stage newStage = (Stage) ((Node) click.getSource()).getScene().getWindow();
+        newStage.close();
     }
 
 }

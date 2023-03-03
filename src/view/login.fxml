@@ -26,7 +26,7 @@
       <TextField fx:id="userField" layoutX="271.0" layoutY="106.0" />
       <TextField fx:id="passField" layoutX="271.0" layoutY="159.0" />
       <Button fx:id="loginButton" layoutX="300.0" layoutY="206.0" mnemonicParsing="false" onAction="#loginButtonClick" text="Login" />
-      <Button fx:id="exitButton" layoutX="550.0" layoutY="360.0" mnemonicParsing="false" text="Exit" />
+      <Button fx:id="exitButton" layoutX="550.0" layoutY="360.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
       <Label fx:id="locationLabel" layoutX="14.0" layoutY="364.0" text="Location:" />
       <Label fx:id="userLocation" layoutX="72.0" layoutY="364.0" text="userLocation" />
    </children>
