@@ -8,8 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import src.database.JDBC;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
@@ -50,6 +55,13 @@ public class utilityFunctions {
         Stage newWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
         newWindow.setScene(newScene);
         newWindow.show();
+    }
+    private static final Connection database = JDBC.getConnection();
+
+    public static ResultSet DBQuery(String dbQuery) throws SQLException {
+        PreparedStatement ps = database.prepareStatement(dbQuery);
+        ResultSet rs;
+        return rs = ps.executeQuery();
     }
 
 }

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import src.database.userQueries;
+import src.model.userModel;
 import src.utilities.utilityFunctions;
 
 /**
@@ -25,6 +27,7 @@ import src.utilities.utilityFunctions;
  * @author Chris Labbe
  */
 public class loginController implements Initializable {
+    public static userModel loginSuccess;
     @FXML
     private TextField passField;
     @FXML
@@ -63,6 +66,9 @@ public class loginController implements Initializable {
         String password = passField.getText();
         if (userName.isEmpty() || password.isEmpty()) {
             utilityFunctions.warningAlert("User or Password field is empty");
+        }
+        else if (userQueries.loginVerify(userName, password) > -1) {
+            loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
         }
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
 
