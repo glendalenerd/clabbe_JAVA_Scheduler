@@ -7,12 +7,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.menuController">
    <children>
-      <Button fx:id="clientsButton" layoutX="261.0" layoutY="115.0" mnemonicParsing="false" text="Clients">
+      <Button fx:id="clientsButton" layoutX="261.0" layoutY="115.0" mnemonicParsing="false" onAction="#clientsMenu" text="Clients">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="appointmentsButton" layoutX="231.0" layoutY="180.0" mnemonicParsing="false" text="Appointments">
+      <Button fx:id="appointmentsButton" layoutX="231.0" layoutY="180.0" mnemonicParsing="false" onAction="#appointmentsMenu" text="Appointments">
          <font>
             <Font size="18.0" />
          </font>
@@ -22,7 +22,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="exitButton" layoutX="544.0" layoutY="356.0" mnemonicParsing="false" text="Exit">
+      <Button fx:id="exitButton" layoutX="544.0" layoutY="356.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit">
          <font>
             <Font size="14.0" />
          </font>

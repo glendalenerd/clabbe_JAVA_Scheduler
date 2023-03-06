@@ -68,7 +68,9 @@ public class loginController implements Initializable {
             utilityFunctions.warningAlert("User or Password field is empty");
         }
         else if (userQueries.loginVerify(userName, password) > -1) {
+            boolean oncomingAppt = false;
             loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
+            //List<Integer> currentAppts = userQueries.
         }
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
 

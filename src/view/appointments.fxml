@@ -12,9 +12,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="447.0" layoutY="435.0" mnemonicParsing="false" text="Create" />
-      <Button layoutX="511.0" layoutY="435.0" mnemonicParsing="false" text="Edit" />
-      <Button layoutX="635.0" layoutY="435.0" mnemonicParsing="false" text="Exit" />
-      <Button layoutX="561.0" layoutY="435.0" mnemonicParsing="false" text="Remove" />
+      <Button layoutX="472.0" layoutY="435.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="520.0" layoutY="435.0" mnemonicParsing="false" text="Edit" />
+      <Button layoutX="568.0" layoutY="435.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="backButton" layoutX="629.0" layoutY="435.0" mnemonicParsing="false" onAction="#menuReturn" text="Back" />
    </children>
 </AnchorPane>

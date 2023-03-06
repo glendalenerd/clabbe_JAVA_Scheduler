@@ -4,6 +4,8 @@ import src.utilities.utilityFunctions;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class userQueries {
 
@@ -25,5 +27,10 @@ public class userQueries {
         }
         return userId;
     }
+
+    //public static List<Integer> fetchUserAppts(int idUser) throws SQLException {
+        //List<Integer> userApptList = new ArrayList<>();
+        //ResultSet apptListQuery = utilityFunctions.DBQuery("SELECT idappt FROM appt WHERE")
+    //}
 
 }
