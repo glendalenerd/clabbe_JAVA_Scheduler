@@ -4,11 +4,13 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="474.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.clientsController">
+<AnchorPane fx:id="clientsTable" prefHeight="474.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.clientsController">
    <children>
       <Label layoutX="316.0" layoutY="14.0" text="Clients">
          <font>
@@ -61,5 +63,17 @@
       <Button layoutX="586.0" layoutY="432.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="535.0" layoutY="432.0" mnemonicParsing="false" text="Edit" />
       <Button fx:id="backButton" layoutX="648.0" layoutY="432.0" mnemonicParsing="false" onAction="#menuReturn" text="Back" />
+      <TableView layoutX="18.0" layoutY="51.0" prefHeight="243.0" prefWidth="665.0">
+        <columns>
+          <TableColumn fx:id="clientIdColumn" prefWidth="51.20003890991211" text="ID" />
+          <TableColumn fx:id="clientNameColumn" prefWidth="107.99993896484375" text="Client" />
+            <TableColumn fx:id="clientEmailColumn" prefWidth="106.40003967285156" text="Email" />
+            <TableColumn fx:id="hairColorColumn" prefWidth="72.79998779296875" text="Pref. Hair Color" />
+            <TableColumn fx:id="activeStatusColumn" prefWidth="61.60003662109375" text="Active" />
+            <TableColumn fx:id="stateProvColumn" prefWidth="92.0" text="State/Prov" />
+            <TableColumn fx:id="clientCountryColumn" prefWidth="75.20001220703125" text="Country" />
+            <TableColumn fx:id="clientPostalCodeColumn" prefWidth="94.39998779296877" text="Postal Code" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
