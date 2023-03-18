@@ -2,12 +2,13 @@ package src.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import src.utilities.utilityFunctions;
 
 import java.io.IOException;
 
-public class appointmentsController {
+public class appointmentsController implements Initializable{
     @FXML
     public Button backButton;
     public void menuReturn(ActionEvent click) throws IOException {
