@@ -58,6 +58,10 @@ public class utilityFunctions {
     }
     private static final Connection database = JDBC.getConnection();
 
+    public static void DBExec(String dbQuery) throws SQLException {
+        PreparedStatement ps = database.prepareStatement(dbQuery);
+        ps.execute();
+    }
     public static ResultSet DBQuery(String dbQuery) throws SQLException {
         PreparedStatement ps = database.prepareStatement(dbQuery);
         ResultSet rs;

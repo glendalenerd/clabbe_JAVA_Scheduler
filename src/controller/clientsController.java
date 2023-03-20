@@ -76,6 +76,34 @@ public class clientsController implements Initializable {
     stateProvColumn.setCellValueFactory(new PropertyValueFactory<>("clientStateProv"));
     clientCountryColumn.setCellValueFactory(new PropertyValueFactory<>("clientCountry"));
     clientPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("clientZipCode"));
+
+    String countryChoices[] = {"United States", "Canada", "Spain"};
+    countryChoiceBox.setItems(FXCollections.observableArrayList(countryChoices));
+
+    }
+    public void clearFields(){
+        clientNameField.clear();
+        emailField.clear();
+        prefHairColorField.clear();
+        activeStatusBox.setSelected(false);
+        countryChoiceBox.getSelectionModel().clearSelection();
+        stateProvField.clear();
+        postalCodeField.clear();
+    }
+    public void addClient() throws SQLException {
+        String clientName = clientNameField.getText();
+        String clientEmail = emailField.getText();
+        String clientPrefHairColor = prefHairColorField.getText();
+        boolean clientActiveStatus = activeStatusBox.isSelected();
+        String countryChoice = (String) countryChoiceBox.getSelectionModel().getSelectedItem();
+        String stateProv = stateProvField.getText();
+        String postalCode = postalCodeField.getText();
+        clientModel client = new clientModel(clientModel.newClientId(), clientName, clientEmail, clientActiveStatus,
+                clientPrefHairColor, stateProv, countryChoice, postalCode);
+        clientQueries.addClient(client);
+        clearFields();
+        allClients.setAll(clientQueries.getClientList());
+        clientTable.refresh();
     }
     public void menuReturn(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");

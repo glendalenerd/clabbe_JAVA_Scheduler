@@ -21,7 +21,7 @@
       <Button layoutX="520.0" layoutY="435.0" mnemonicParsing="false" text="Edit" />
       <Button layoutX="568.0" layoutY="435.0" mnemonicParsing="false" text="Delete" />
       <Button fx:id="backButton" layoutX="629.0" layoutY="435.0" mnemonicParsing="false" onAction="#menuReturn" text="Back" />
-      <TableView layoutX="24.0" layoutY="36.0" prefHeight="230.0" prefWidth="798.0">
+      <TableView fx:id="apptTable" layoutX="24.0" layoutY="36.0" prefHeight="230.0" prefWidth="798.0">
         <columns>
           <TableColumn fx:id="apptIdColumn" prefWidth="75.0" text="Appt ID" />
           <TableColumn fx:id="apptTitleColumn" prefWidth="75.0" text="Title" />
@@ -75,12 +75,12 @@
       <ChoiceBox fx:id="aptStartHourField" layoutX="478.0" layoutY="293.0" prefHeight="26.0" prefWidth="83.0" />
       <ChoiceBox fx:id="apptEndHourField" layoutX="478.0" layoutY="347.0" prefHeight="26.0" prefWidth="83.0" />
       <ChoiceBox fx:id="aptStartMinuteField" layoutX="576.0" layoutY="293.0" prefHeight="26.0" prefWidth="83.0" />
-      <ChoiceBox fx:id="apptEndHourField" layoutX="576.0" layoutY="347.0" prefHeight="26.0" prefWidth="83.0" />
+      <ChoiceBox fx:id="apptEndMinuteField" layoutX="576.0" layoutY="347.0" prefHeight="26.0" prefWidth="83.0" />
       <Label layoutX="370.0" layoutY="274.0" text="Start Date" />
       <Label layoutX="373.0" layoutY="329.0" text="End Date" />
       <Label layoutX="492.0" layoutY="274.0" text="Start Hour" />
       <Label layoutX="495.0" layoutY="329.0" text="End Hour" />
       <Label layoutX="584.0" layoutY="274.0" text="Start Minute" />
-      <Label layoutX="593.0" layoutY="329.0" text="End Hour" />
+      <Label layoutX="586.0" layoutY="329.0" text="End Minute" />
    </children>
 </AnchorPane>

@@ -10,13 +10,13 @@ public class clientModel {
     public int clientId;
     public String clientName;
     public String clientEmail;
-    public int activeStatus;
+    public boolean activeStatus;
     public String clientPrefHairColor;
     public String clientStateProv;
     public String clientCountry;
     public String clientZipCode;
 
-    public clientModel(int clientId, String clientName, String clientEmail, int activeStatus, String clientPrefHairColor,
+    public clientModel(int clientId, String clientName, String clientEmail, boolean activeStatus, String clientPrefHairColor,
                        String clientStateProv, String clientCountry, String clientZipCode) throws SQLException {
         this.clientId = clientId;
         this.clientName = clientName;
@@ -40,7 +40,7 @@ public class clientModel {
         return clientEmail;
     }
 
-    public int getActiveStatus() {
+    public boolean getActiveStatus() {
         return activeStatus;
     }
 
