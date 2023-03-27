@@ -15,7 +15,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -30,6 +33,16 @@ public class utilityFunctions {
         alert.setTitle("Warning");
         alert.setContentText(text);
         alert.showAndWait();
+    }
+
+    public static ZoneId getZoneId() {
+        return ZoneId.systemDefault();
+    }
+
+    public static LocalDateTime getUniversalTime(LocalDateTime localClock) {
+        ZonedDateTime localClockZoned = localClock.atZone(getZoneId());
+        ZonedDateTime UniversalZoned = localClockZoned.withZoneSameInstant(ZoneId.of("UTC"));
+        return UniversalZoned.toLocalDateTime();
     }
 
     public static boolean confirmationAlert(String text) {
@@ -56,7 +69,7 @@ public class utilityFunctions {
         newWindow.setScene(newScene);
         newWindow.show();
     }
-    private static final Connection database = JDBC.getConnection();
+    public static final Connection database = JDBC.getConnection();
 
     public static void DBExec(String dbQuery) throws SQLException {
         PreparedStatement ps = database.prepareStatement(dbQuery);

@@ -80,6 +80,19 @@ public class clientsController implements Initializable {
     String countryChoices[] = {"United States", "Canada", "Spain"};
     countryChoiceBox.setItems(FXCollections.observableArrayList(countryChoices));
 
+    //Lambda listener used to listen for selection of fields and update fields as necessary
+    clientTable.getSelectionModel().selectedItemProperty().addListener((origEntry, oldEntry, newEntry) -> {
+        if (newEntry != null) {
+            clientNameField.setText(newEntry.getClientName());
+            emailField.setText(newEntry.getClientEmail());
+            prefHairColorField.setText(newEntry.getClientPrefHairColor());
+            activeStatusBox.setSelected(newEntry.getActiveStatus());
+            countryChoiceBox.setValue(newEntry.getClientCountry());
+            stateProvField.setText(newEntry.getClientStateProv());
+            postalCodeField.setText(newEntry.getClientZipCode());
+        }
+    });
+
     }
     public void clearFields(){
         clientNameField.clear();

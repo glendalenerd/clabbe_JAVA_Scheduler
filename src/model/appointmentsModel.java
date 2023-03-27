@@ -1,5 +1,9 @@
 package src.model;
 
+import javafx.collections.ObservableList;
+import src.database.appointmentQueries;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class appointmentsModel {
@@ -35,5 +39,16 @@ public class appointmentsModel {
     public LocalDateTime getApptStart() {return apptStart; }
     public LocalDateTime getApptEnd() {return apptEnd; }
     public int getApptClientId() {return apptClientId; }
+
+    public static int newApptId() throws SQLException {
+        ObservableList<appointmentsModel> apptList = appointmentQueries.getAppointmentsList();
+        int prevMaxId = 0;
+        for(appointmentsModel appt : apptList) {
+            if (appt.getApptId() > prevMaxId) {
+                prevMaxId = appt.getApptId();
+            }
+        }
+        return ++prevMaxId;
+    }
 
 }

@@ -3,6 +3,7 @@ package src.database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import src.model.appointmentsModel;
+import src.model.clientModel;
 import src.utilities.utilityFunctions;
 
 import java.sql.ResultSet;
@@ -30,5 +31,21 @@ public class appointmentQueries {
 
         }
         return appointmentsListAll;
+    }
+    public static void addAppointment(appointmentsModel appointment) throws SQLException {
+        Integer apptId = appointment.getApptId();
+        String apptTitle = appointment.getApptTitle();
+        String apptDesc = appointment.getApptDesc();
+        String apptLocation = appointment.getApptLocation();
+        String apptStylist = appointment.getApptStylist();
+        String apptType = appointment.getApptType();
+        //LocalDateTime apptStart = appointment.getApptStart();
+        //LocalDateTime apptEnd = appointment.getApptEnd();
+        int apptClientId = appointment.getApptClientId();
+        String queryCommand = "INSERT INTO appt VALUES ";
+        String queryText = apptId+", '"+apptTitle+"', '"+apptDesc+"', '"+apptLocation+"', '"+apptStylist+
+                "', '"+apptType+"', '"+appointment.getApptStart()+"', '"+appointment.getApptEnd()+"', "+apptClientId;
+        System.out.println(queryCommand+"("+queryText+");");
+        utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
 }
