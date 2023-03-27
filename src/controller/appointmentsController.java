@@ -80,6 +80,8 @@ public class appointmentsController implements Initializable{
     public Button backButton;
     @FXML
     public Button addButton;
+    @FXML
+    public Button clearFieldsButton;
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allAppointments.setAll(appointmentQueries.getAppointmentsList());

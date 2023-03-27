@@ -75,5 +75,6 @@
             <TableColumn fx:id="clientPostalCodeColumn" prefWidth="94.39998779296877" text="Postal Code" />
         </columns>
       </TableView>
+      <Button fx:id="clearFieldsButton" layoutX="162.0" layoutY="432.0" mnemonicParsing="false" onAction="#clearFields" text="Clear Fields" />
    </children>
 </AnchorPane>

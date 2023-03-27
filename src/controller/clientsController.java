@@ -59,6 +59,8 @@ public class clientsController implements Initializable {
     public Button editButton;
     @FXML
     public Button backButton;
+    @FXML
+    public Button clearFieldsButton;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
