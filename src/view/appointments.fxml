@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -88,5 +89,9 @@
          </font>
       </Label>
       <TextField fx:id="apptClientIdField" layoutX="135.0" layoutY="470.0" prefHeight="26.0" prefWidth="62.0" />
+      <RadioButton layoutX="713.0" layoutY="317.0" mnemonicParsing="false" text="Month" />
+      <RadioButton layoutX="713.0" layoutY="352.0" mnemonicParsing="false" text="Week" />
+      <RadioButton layoutX="713.0" layoutY="384.0" mnemonicParsing="false" text="All" />
+      <Label layoutX="677.0" layoutY="284.0" text="Filter Appointments By:" />
    </children>
 </AnchorPane>
