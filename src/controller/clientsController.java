@@ -15,7 +15,10 @@ import src.utilities.utilityFunctions;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import static src.database.clientQueries.getClientAppts;
 
 public class clientsController implements Initializable {
     private final ObservableList<clientModel> allClients = FXCollections.observableArrayList();
@@ -120,6 +123,26 @@ public class clientsController implements Initializable {
         allClients.setAll(clientQueries.getClientList());
         clientTable.refresh();
     }
+    public void editClient() throws SQLException {
+        clientModel previousClient = clientTable.getSelectionModel().getSelectedItem();
+        clientModel editClient = new clientModel(
+               previousClient.getClientId(), clientNameField.getText(), emailField.getText(), activeStatusBox.isSelected(),
+               prefHairColorField.getText(), stateProvField.getText(), (String) countryChoiceBox.getSelectionModel().getSelectedItem(),
+               postalCodeField.getText()
+        );
+        clientQueries.editClient(editClient);
+        clearFields();
+        allClients.setAll(clientQueries.getClientList());
+        clientTable.refresh();
+    }
+    public void deleteClient() throws SQLException {
+        Integer selectedClientId = clientTable.getSelectionModel().getSelectedItem().getClientId();
+        clientQueries.deleteClient(Integer.parseInt(String.valueOf(selectedClientId)));
+        allClients.setAll(clientQueries.getClientList());
+        clearFields();
+        clientTable.refresh();
+    }
+
     public void menuReturn(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
     }

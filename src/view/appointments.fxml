@@ -46,7 +46,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="apptIdField" layoutX="134.0" layoutY="270.0" prefHeight="26.0" prefWidth="102.0" />
+      <TextField fx:id="apptIdField" editable="false" layoutX="134.0" layoutY="270.0" prefHeight="26.0" prefWidth="102.0" promptText="Auto Generated" />
       <Label layoutX="52.0" layoutY="338.0" text="Description:">
          <font>
             <Font size="14.0" />
