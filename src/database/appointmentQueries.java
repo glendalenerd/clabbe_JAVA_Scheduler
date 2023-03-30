@@ -20,13 +20,13 @@ public class appointmentQueries {
             String apptTitle = appointmentsFetch.getString("titlle");
             String apptDesc = appointmentsFetch.getString("descr");
             String apptLocation = appointmentsFetch.getString("location");
-            String apptStylistId = appointmentsFetch.getString("stylid");
+            int apptStylistId = Integer.parseInt(appointmentsFetch.getString("stylid"));
             String apptType = appointmentsFetch.getString("type");
             LocalDateTime apptStart = appointmentsFetch.getTimestamp("start").toLocalDateTime();
             LocalDateTime apptEnd = appointmentsFetch.getTimestamp("end").toLocalDateTime();
             int apptClientId = appointmentsFetch.getInt("clientid");
-            appointmentsModel appointment = new appointmentsModel(apptId, apptTitle, apptDesc, apptLocation, apptStylistId,
-                    apptType, apptStart, apptEnd, apptClientId);
+            appointmentsModel appointment = new appointmentsModel(apptId, apptTitle, apptDesc, apptLocation,
+                    apptType, apptStart, apptEnd, apptClientId, apptStylistId);
             appointmentsListAll.add(appointment);
 
         }
@@ -37,15 +37,27 @@ public class appointmentQueries {
         String apptTitle = appointment.getApptTitle();
         String apptDesc = appointment.getApptDesc();
         String apptLocation = appointment.getApptLocation();
-        String apptStylist = appointment.getApptStylist();
+        Integer apptStylist = appointment.getApptStylist();
         String apptType = appointment.getApptType();
         //LocalDateTime apptStart = appointment.getApptStart();
         //LocalDateTime apptEnd = appointment.getApptEnd();
         int apptClientId = appointment.getApptClientId();
         String queryCommand = "INSERT INTO appt VALUES ";
-        String queryText = apptId+", '"+apptTitle+"', '"+apptDesc+"', '"+apptLocation+"', '"+apptStylist+
-                "', '"+apptType+"', '"+appointment.getApptStart()+"', '"+appointment.getApptEnd()+"', "+apptClientId;
+        String queryText = apptId+", '"+apptTitle+"', '"+apptDesc+"', '"+apptLocation+"', '"+apptType+"', " +
+                "'"+appointment.getApptStart()+"', " +
+                "'"+appointment.getApptEnd()+"', " +
+                "'"+apptClientId+"', '"+apptStylist+"'";
         System.out.println(queryCommand+"("+queryText+");");
         utilityFunctions.DBExec(queryCommand+"("+queryText+");");
+    }
+    public static void editAppointment(appointmentsModel appointment) throws SQLException {
+        String queryCommand = "UPDATE appt SET ";
+        String queryText = "titlle = '"+appointment.getApptTitle()+"', descr = '"+appointment.getApptDesc()+"', location = '"+
+                appointment.getApptLocation()+"', type = '"+appointment.getApptType()+"', start = '"+
+                appointment.getApptStart()+"', end = '"+appointment.getApptEnd()+"', clientid = '"+
+                appointment.getApptClientId()+"', stylid = '"+appointment.getApptClientId()+"'"+
+                " WHERE idappt = "+appointment.getApptId();
+        System.out.println(queryCommand+queryText);
+        utilityFunctions.DBExec(queryCommand+queryText);
     }
 }

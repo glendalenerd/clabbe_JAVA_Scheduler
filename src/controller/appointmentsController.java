@@ -30,7 +30,8 @@ import static src.utilities.utilityFunctions.database;
 public class appointmentsController implements Initializable{
     private final ObservableList<appointmentsModel> allAppointments = FXCollections.observableArrayList();
     private final ObservableList<stylistModel> stylistChoices = FXCollections.observableArrayList();
-    private final ArrayList<String> stylistNamesList = new ArrayList<>();
+    //private final ArrayList<String> stylistNamesList = new ArrayList<>();
+    private final ArrayList<Integer> stylistIdsList = new ArrayList<>();
     @FXML
     public TableView<appointmentsModel> apptTable;
     @FXML
@@ -81,6 +82,8 @@ public class appointmentsController implements Initializable{
     @FXML
     public Button addButton;
     @FXML
+    public Button editButton;
+    @FXML
     public Button clearFieldsButton;
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -106,7 +109,7 @@ public class appointmentsController implements Initializable{
             apptTitleField.setText(newEntry.getApptTitle());
             apptDescField.setText(newEntry.getApptDesc());
             apptLocationField.setText(newEntry.getApptLocation());
-            apptClientIdField.setText(Integer.toString(newEntry.getApptId()));
+            apptClientIdField.setText(Integer.toString(newEntry.getApptClientId()));
             apptStylistField.setValue(newEntry.getApptStylist());
             apptTypeField.setText(newEntry.getApptType());
             apptStartDatePicker.setValue(LocalDate.from(newEntry.getApptStart()));
@@ -124,11 +127,23 @@ public class appointmentsController implements Initializable{
     aptStartMinuteField.getItems().addAll(minuteChoices);
     apptEndHourField.getItems().addAll(hourChoices);
     apptEndMinuteField.getItems().addAll(minuteChoices);
+        //try {
+            //stylistChoices.setAll(stylistQueries.getStylistList());
+            //for (stylistModel s : stylistChoices) {
+                //stylistNamesList.add(s.getStylistName());
+                //System.out.println(s.getStylistId());
+            //}
+                //apptStylistField.getItems().addAll(stylistNamesList);
+        //} catch (SQLException e) {
+            //throw new RuntimeException(e);
+        //}
         try {
             stylistChoices.setAll(stylistQueries.getStylistList());
             for (stylistModel s : stylistChoices) {
-                stylistNamesList.add(s.getStylistName()); }
-                apptStylistField.getItems().addAll(stylistNamesList);
+                stylistIdsList.add(s.getStylistId());
+                //System.out.println(s.getStylistId());
+            }
+            apptStylistField.getItems().addAll(stylistIdsList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -155,9 +170,10 @@ public class appointmentsController implements Initializable{
         String apptTitle = apptTitleField.getText();
         String apptDesc = apptDescField.getText();
         String apptLocation = apptLocationField.getText();
-        String apptStylist = (String) apptStylistField.getSelectionModel().getSelectedItem();
+        Integer apptStylist = (Integer) apptStylistField.getSelectionModel().getSelectedItem();
         String apptType = apptTypeField.getText();
-        int apptClientId = Integer.parseInt(apptClientIdField.getText());
+        Integer apptClientId = Integer.valueOf(apptClientIdField.getText());
+        System.out.println(apptClientId);
         LocalDate localDateStart = apptStartDatePicker.getValue();
         LocalDate localDateEnd = apptEndDatePicker.getValue();
         LocalTime localTimeStart = LocalTime.of((Integer) aptStartHourField.getValue(), (Integer) aptStartMinuteField.getValue());
@@ -165,12 +181,36 @@ public class appointmentsController implements Initializable{
         LocalDateTime completeStart = LocalDateTime.of(localDateStart, localTimeStart);
         LocalDateTime completeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
         appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
-                apptStylist, apptType, completeStart, completeEnd, apptClientId);
+                apptType, completeStart, completeEnd, apptClientId, apptStylist);
         src.database.appointmentQueries.addAppointment(appointment);
         clearFields();
         allAppointments.setAll(appointmentQueries.getAppointmentsList());
         apptTable.refresh();
 
+    }
+    public void editAppointment() throws SQLException {
+        appointmentsModel previousAppt = apptTable.getSelectionModel().getSelectedItem();
+        String apptTitle = apptTitleField.getText();
+        String apptDesc = apptDescField.getText();
+        String apptLocation = apptLocationField.getText();
+        Integer apptStylist = (Integer) apptStylistField.getSelectionModel().getSelectedItem();
+        String apptType = apptTypeField.getText();
+        Integer apptClientId = Integer.valueOf(apptClientIdField.getText());
+        System.out.println(apptClientId);
+        LocalDate localDateStart = apptStartDatePicker.getValue();
+        LocalDate localDateEnd = apptEndDatePicker.getValue();
+        LocalTime localTimeStart = LocalTime.of((Integer) aptStartHourField.getValue(), (Integer) aptStartMinuteField.getValue());
+        LocalTime localTimeEnd = LocalTime.of((Integer) apptEndHourField.getValue(), (Integer) apptEndMinuteField.getValue());
+        LocalDateTime completeStart = LocalDateTime.of(localDateStart, localTimeStart);
+        LocalDateTime completeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
+        appointmentsModel editAppt = new appointmentsModel(
+                previousAppt.getApptId(), apptTitle, apptDesc, apptLocation,
+                apptType, completeStart, completeEnd, apptClientId, apptStylist
+        );
+        appointmentQueries.editAppointment(editAppt);
+        clearFields();
+        allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        apptTable.refresh();
     }
     public void menuReturn(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");

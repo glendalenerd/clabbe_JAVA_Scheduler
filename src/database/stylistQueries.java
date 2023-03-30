@@ -23,4 +23,5 @@ public class stylistQueries {
         }
         return stylistListAll;
     }
+    //public static ObservableList<stylistModel> getS
 }
