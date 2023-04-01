@@ -2,6 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -13,5 +16,36 @@
          </font>
       </Label>
       <Button fx:id="backButton" layoutX="599.0" layoutY="411.0" mnemonicParsing="false" onAction="#menuReturn" text="Back" />
+      <TabPane layoutX="21.0" layoutY="79.0" prefHeight="322.0" prefWidth="610.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="clientApptsTab" text="Client Appts">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="clientApptsText" layoutX="-3.0" layoutY="-1.0" prefHeight="296.0" prefWidth="618.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="stylistSchedulesTab" text="Stylist Schedules">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="stylistSchedules" prefHeight="295.0" prefWidth="610.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="apptsPerCountryTab" text="Total Appts Per Country">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="apptsPerCountry" layoutX="-2.0" layoutY="-1.0" prefHeight="294.0" prefWidth="610.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

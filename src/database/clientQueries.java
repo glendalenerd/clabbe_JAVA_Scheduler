@@ -68,6 +68,7 @@ public class clientQueries {
     public static void deleteClient(int clientId) throws SQLException {
         //List<Integer> clientAppts = getClientAppts(clientId);
         String clientDeleteQuery = "DELETE FROM client WHERE idclient = " + clientId;
+        System.out.println("delete: "+clientDeleteQuery);
         utilityFunctions.DBExec(clientDeleteQuery);
     }
 

@@ -60,4 +60,5 @@ public class appointmentQueries {
         System.out.println(queryCommand+queryText);
         utilityFunctions.DBExec(queryCommand+queryText);
     }
+
 }

@@ -84,7 +84,15 @@ public class appointmentsController implements Initializable{
     @FXML
     public Button editButton;
     @FXML
+    public Button deleteButton;
+    @FXML
     public Button clearFieldsButton;
+    @FXML
+    public RadioButton weekRadioButton;
+    @FXML
+    public RadioButton monthRadioButton;
+    @FXML
+    public RadioButton allRadioButton;
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allAppointments.setAll(appointmentQueries.getAppointmentsList());
@@ -166,6 +174,44 @@ public class appointmentsController implements Initializable{
         apptEndMinuteField.getSelectionModel().clearSelection();
     }
 
+    public void weekRadioFilter() throws SQLException {
+        allRadioButton.setSelected(false);
+        monthRadioButton.setSelected(false);
+        ObservableList<appointmentsModel> apptsWeek = FXCollections.observableArrayList();
+        LocalDateTime nowPlusWeek = LocalDateTime.now().plusWeeks(1);
+        LocalDateTime now = LocalDateTime.now();
+        allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        for (appointmentsModel appointment : allAppointments) {
+            if (appointment.getApptStart().isBefore(nowPlusWeek) && appointment.getApptStart().isAfter(now)) {
+                apptsWeek.add(appointment);
+            }
+        }
+        apptTable.setItems(apptsWeek);
+        apptTable.refresh();
+    }
+    public void monthRadioFilter() throws SQLException {
+        weekRadioButton.setSelected(false);
+        allRadioButton.setSelected(false);
+        ObservableList<appointmentsModel> apptsMonth = FXCollections.observableArrayList();
+        LocalDateTime nowPlusMonth = LocalDateTime.now().plusMonths(1);
+        LocalDateTime now = LocalDateTime.now();
+        allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        for (appointmentsModel appointment : allAppointments) {
+            if (appointment.getApptStart().isBefore(nowPlusMonth) && appointment.getApptStart().isAfter(now)) {
+                apptsMonth.add(appointment);
+            }
+        }
+        apptTable.setItems(apptsMonth);
+        apptTable.refresh();
+    }
+    public void allRadioFilter() throws SQLException {
+        weekRadioButton.setSelected(false);
+        monthRadioButton.setSelected(false);
+        allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        apptTable.setItems(allAppointments);
+        apptTable.refresh();
+    }
+
     public void newAppointment() throws SQLException {
         String apptTitle = apptTitleField.getText();
         String apptDesc = apptDescField.getText();
@@ -210,6 +256,15 @@ public class appointmentsController implements Initializable{
         appointmentQueries.editAppointment(editAppt);
         clearFields();
         allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        apptTable.refresh();
+    }
+    public void deleteAppointment() throws SQLException {
+        appointmentsModel selectedAppts = apptTable.getSelectionModel().getSelectedItem();
+        Integer apptToDelete = selectedAppts.getApptId();
+        String deleteCommand = "DELETE FROM appt WHERE idappt="+apptToDelete;
+        utilityFunctions.DBExec(deleteCommand);
+        allAppointments.setAll(appointmentQueries.getAppointmentsList());
+        clearFields();
         apptTable.refresh();
     }
     public void menuReturn(ActionEvent click) throws IOException {
