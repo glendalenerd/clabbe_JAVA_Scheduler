@@ -1,4 +1,5 @@
 package src.controller;
+import javafx.collections.ObservableList;
 import src.database.JDBC;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,16 +11,21 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
+import src.database.appointmentQueries;
 import src.database.userQueries;
+import src.model.appointmentsModel;
 import src.model.userModel;
+import src.utilities.logRecorder;
 import src.utilities.utilityFunctions;
 
 /**
@@ -66,13 +72,47 @@ public class loginController implements Initializable {
         String password = passField.getText();
         if (userName.isEmpty() || password.isEmpty()) {
             utilityFunctions.warningAlert("User or Password field is empty");
+            logRecorder.logRecord(userName, password, false);
         }
-        else if (userQueries.loginVerify(userName, password) > -1) {
-            boolean oncomingAppt = false;
-            loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
-            //List<Integer> currentAppts = userQueries.
+        else {
+            if (userQueries.loginVerify(userName, password) > -1) {
+                Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
+                List<LocalDateTime> apptStartTimes = new ArrayList<>();
+                boolean oncomingAppt = false;
+                loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
+                ObservableList<appointmentsModel> appointments = appointmentQueries.getAppointmentsList();
+                System.out.println("appt model: "+appointments);
+                for (appointmentsModel a : appointments) {
+                    apptStartTimes.add(a.getApptStart());
+                    System.out.println(apptStartTimes);
+                }
+                for (LocalDateTime startTime : apptStartTimes) {
+                    Timestamp start = Timestamp.valueOf(startTime);
+                    if (Math.abs(start.getTime()-currentTime.getTime()) < TimeUnit.MINUTES.toMillis(15)) {
+                        //System.out.println("it's there!");
+                        oncomingAppt = true;
+                    }
+
+                }
+                if (!oncomingAppt) {
+                    utilityFunctions.warningAlert("No appointments are starting within the next 15 minutes");
+                }
+                else {
+                    utilityFunctions.warningAlert("There are appointments starting within the next 15 minutes");
+                }
+                //List<Integer> currentAppts = userQueries.
+                utilityFunctions.menuOpen(click, "../view/menu.fxml");
+                logRecorder.logRecord(userName, password, true);
+            }
+            else {
+                utilityFunctions.warningAlert("Invalid Credentials");
+                logRecorder.logRecord(userName, password,false);
+            }
+
+
         }
-        utilityFunctions.menuOpen(click, "../view/menu.fxml");
+
+
 
     }
     public void exitButtonClick(ActionEvent click) {
