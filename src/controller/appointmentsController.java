@@ -226,13 +226,14 @@ public class appointmentsController implements Initializable{
         LocalTime localTimeEnd = LocalTime.of((Integer) apptEndHourField.getValue(), (Integer) apptEndMinuteField.getValue());
         LocalDateTime completeStart = LocalDateTime.of(localDateStart, localTimeStart);
         LocalDateTime completeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
-        appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
-                apptType, completeStart, completeEnd, apptClientId, apptStylist);
-        src.database.appointmentQueries.addAppointment(appointment);
-        clearFields();
-        allAppointments.setAll(appointmentQueries.getAppointmentsList());
-        apptTable.refresh();
-
+        if (utilityFunctions.businessHourCheck(completeStart, completeEnd)){
+            appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
+                    apptType, completeStart, completeEnd, apptClientId, apptStylist);
+            src.database.appointmentQueries.addAppointment(appointment);
+            clearFields();
+            allAppointments.setAll(appointmentQueries.getAppointmentsList());
+            apptTable.refresh();
+        }
     }
     public void editAppointment() throws SQLException {
         appointmentsModel previousAppt = apptTable.getSelectionModel().getSelectedItem();

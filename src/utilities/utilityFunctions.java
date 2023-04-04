@@ -15,10 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -34,7 +31,17 @@ public class utilityFunctions {
         alert.setContentText(text);
         alert.showAndWait();
     }
+    public static LocalDateTime getLocalBusTime(LocalDateTime universal) {
+        ZonedDateTime universalZoned = universal.atZone(getZoneId());
+        return universalZoned.toLocalDateTime().atZone(ZoneId.of("UTC")).
+                withZoneSameInstant(ZoneId.of("US/Mountain")).toLocalDateTime();
+    }
 
+    public static LocalDateTime getUTCTime(LocalDateTime timeAndDate){
+        ZonedDateTime timeDateZone = timeAndDate.atZone(getZoneId());
+        ZonedDateTime universalZone = timeDateZone.withZoneSameInstant(ZoneId.of("UTC"));
+        return universalZone.toLocalDateTime();
+    }
     public static ZoneId getZoneId() {
         return ZoneId.systemDefault();
     }
@@ -79,6 +86,20 @@ public class utilityFunctions {
         PreparedStatement ps = database.prepareStatement(dbQuery);
         ResultSet rs;
         return rs = ps.executeQuery();
+    }
+
+    public static boolean businessHourCheck(LocalDateTime completeStart, LocalDateTime completeEnd) {
+        LocalDateTime universalStart = utilityFunctions.getUniversalTime(completeStart);
+        LocalDateTime universalEnd = utilityFunctions.getUniversalTime(completeEnd);
+        LocalDateTime businessTimeStart = utilityFunctions.getLocalBusTime(universalStart);
+        LocalDateTime businessTimeEnd = utilityFunctions.getLocalBusTime(universalEnd);
+        LocalTime officeOpenTime = LocalTime.of(8, 0,0);
+        LocalTime officeCloseTime = LocalTime.of(22,0,0);
+        if (businessTimeStart.toLocalTime().isBefore(officeOpenTime)) {
+            utilityFunctions.warningAlert("This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST");
+            return false;
+        }
+        return true;
     }
 
 }
