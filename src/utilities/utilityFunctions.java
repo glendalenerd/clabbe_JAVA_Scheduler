@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.*;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -95,11 +97,22 @@ public class utilityFunctions {
         LocalDateTime businessTimeEnd = utilityFunctions.getLocalBusTime(universalEnd);
         LocalTime officeOpenTime = LocalTime.of(8, 0,0);
         LocalTime officeCloseTime = LocalTime.of(22,0,0);
-        if (businessTimeStart.toLocalTime().isBefore(officeOpenTime)) {
+        if (businessTimeStart.toLocalTime().isBefore(officeOpenTime) || businessTimeStart.toLocalTime().isAfter(officeCloseTime)) {
             utilityFunctions.warningAlert("This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST");
             return false;
         }
         return true;
+    }
+
+    //public static LocalDate tGCalculate(int year) {
+      //  LocalDate tGDate = Year.of(year).atMonth(Month.NOVEMBER).atDay(1).
+        //        with(TemporalAdjusters.lastInMonth(DayOfWeek.WEDNESDAY));
+        //return tGDate;
+    //}
+    public static LocalDate tGCalculate(int year) {
+        LocalDate tGDate = Year.of(year).atMonth(Month.NOVEMBER).atDay(1).
+                with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
+        return tGDate;
     }
 
 }

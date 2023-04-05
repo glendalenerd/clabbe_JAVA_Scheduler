@@ -20,12 +20,14 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
 import static src.utilities.utilityFunctions.database;
+import static src.utilities.utilityFunctions.tGCalculate;
 
 public class appointmentsController implements Initializable{
     private final ObservableList<appointmentsModel> allAppointments = FXCollections.observableArrayList();
@@ -226,6 +228,11 @@ public class appointmentsController implements Initializable{
         LocalTime localTimeEnd = LocalTime.of((Integer) apptEndHourField.getValue(), (Integer) apptEndMinuteField.getValue());
         LocalDateTime completeStart = LocalDateTime.of(localDateStart, localTimeStart);
         LocalDateTime completeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
+        //System.out.println("month: "+completeEnd.getMonth());
+        //System.out.println("year: "+completeEnd.getYear());
+        LocalDate tGHoliday = tGCalculate(localDateStart.getYear());
+        System.out.println("thanksgiving: "+tGHoliday);
+
         if (utilityFunctions.businessHourCheck(completeStart, completeEnd)){
             appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
                     apptType, completeStart, completeEnd, apptClientId, apptStylist);
