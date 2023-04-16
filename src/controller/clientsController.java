@@ -126,14 +126,29 @@ public class clientsController implements Initializable {
     public void editClient() throws SQLException {
         clientModel previousClient = clientTable.getSelectionModel().getSelectedItem();
         clientModel editClient = new clientModel(
-               previousClient.getClientId(), clientNameField.getText(), emailField.getText(), activeStatusBox.isSelected(),
-               prefHairColorField.getText(), stateProvField.getText(), (String) countryChoiceBox.getSelectionModel().getSelectedItem(),
-               postalCodeField.getText()
+                previousClient.getClientId(), clientNameField.getText(), emailField.getText(), activeStatusBox.isSelected(),
+                prefHairColorField.getText(), stateProvField.getText(), (String) countryChoiceBox.getSelectionModel().getSelectedItem(),
+                postalCodeField.getText()
         );
-        clientQueries.editClient(editClient);
-        clearFields();
-        allClients.setAll(clientQueries.getClientList());
-        clientTable.refresh();
+        if (activeStatusBox.isSelected() == false) {
+            if (!clientQueries.getClientAppts(previousClient.getClientId()).isEmpty()) {
+                utilityFunctions.warningAlert("Client's appointments must be deleted before setting to inactive");
+                activeStatusBox.setSelected(true);
+            }
+            else {
+                utilityFunctions.warningAlert("Client has been set to inactive");
+                clientQueries.editClient(editClient);
+                clearFields();
+                allClients.setAll(clientQueries.getClientList());
+                clientTable.refresh();
+            }
+        }
+        else {
+            clientQueries.editClient(editClient);
+            clearFields();
+            allClients.setAll(clientQueries.getClientList());
+            clientTable.refresh();
+        }
     }
     public void deleteClient() throws SQLException {
         Integer selectedClientId = clientTable.getSelectionModel().getSelectedItem().getClientId();
