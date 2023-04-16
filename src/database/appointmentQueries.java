@@ -47,7 +47,7 @@ public class appointmentQueries {
                 "'"+appointment.getApptStart()+"', " +
                 "'"+appointment.getApptEnd()+"', " +
                 "'"+apptClientId+"', '"+apptStylist+"'";
-        System.out.println(queryCommand+"("+queryText+");");
+        //System.out.println(queryCommand+"("+queryText+");");
         utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
     public static void editAppointment(appointmentsModel appointment) throws SQLException {
@@ -57,7 +57,7 @@ public class appointmentQueries {
                 appointment.getApptStart()+"', end = '"+appointment.getApptEnd()+"', clientid = '"+
                 appointment.getApptClientId()+"', stylid = '"+appointment.getApptClientId()+"'"+
                 " WHERE idappt = "+appointment.getApptId();
-        System.out.println(queryCommand+queryText);
+        //System.out.println(queryCommand+queryText);
         utilityFunctions.DBExec(queryCommand+queryText);
     }
 

@@ -42,7 +42,7 @@ public class clientQueries {
         String queryCommand = "INSERT INTO client VALUES ";
         String queryText = clientId+", '"+clientName+"', '"+clientEmail+"', '"+clientHairColor+"', '"+clientPostalCode+
                 "', '"+clientStaveProv+"', '"+clientCountry+"', "+clientActiveStatus;
-        System.out.println(queryCommand+"("+queryText+");");
+        //System.out.println(queryCommand+"("+queryText+");");
         utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
     public static void editClient(clientModel client) throws SQLException {
@@ -51,7 +51,7 @@ public class clientQueries {
                 client.getClientPrefHairColor() + "', pcode = '" + client.getClientZipCode() + "', st_pv = '" +
                 client.getClientStateProv() + "', country = '" + client.getClientCountry() + "', Active = " + client.getActiveStatus() +
                 " WHERE idclient = " + client.getClientId();
-        System.out.println("edit: " + queryCommand+queryText);
+        //System.out.println("edit: " + queryCommand+queryText);
         utilityFunctions.DBExec(
             queryCommand+queryText
         );

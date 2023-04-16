@@ -97,22 +97,74 @@ public class utilityFunctions {
         LocalDateTime businessTimeEnd = utilityFunctions.getLocalBusTime(universalEnd);
         LocalTime officeOpenTime = LocalTime.of(8, 0,0);
         LocalTime officeCloseTime = LocalTime.of(22,0,0);
+        LocalDate tGHoliday = tGCalculate(completeStart.getYear());
+        LocalDate tGDayAfter = tGHoliday.plusDays(1);
+        //System.out.println(tGDayAfter.getDayOfWeek());
+        LocalDate fourthHoliday = julyFourthDate(completeStart.getYear());
+        LocalDate newYearHoliday = newYearsDay(completeStart.getYear());
+        DayOfWeek firstWeekday = newYearHoliday.getDayOfWeek();
+        DayOfWeek fourthWeekday = fourthHoliday.getDayOfWeek();
+        LocalDate julyFourthObserved = fourthHoliday;
+        LocalDate newYearsObserved = newYearHoliday;
+        boolean julyFourthIsOnWeekend = false;
+        boolean newYearsIsOnWeekend = false;
+        if (fourthWeekday == DayOfWeek.SATURDAY || fourthWeekday == DayOfWeek.SUNDAY) {
+            julyFourthIsOnWeekend = true;
+        }
+        if (firstWeekday == DayOfWeek.SATURDAY || firstWeekday == DayOfWeek.SUNDAY) {
+            newYearsIsOnWeekend = true;
+        }
+        //System.out.println("day of week: "+fourthWeekday);
         if (businessTimeStart.toLocalTime().isBefore(officeOpenTime) || businessTimeStart.toLocalTime().isAfter(officeCloseTime)) {
             utilityFunctions.warningAlert("This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST");
             return false;
         }
+        if (completeStart.toLocalDate().isEqual(tGHoliday) || completeStart.toLocalDate().isEqual(tGDayAfter)) {
+            utilityFunctions.warningAlert("The business is closed on Thanksgiving day and the day after");
+            return false;
+        }
+        if (completeStart.toLocalDate().isEqual(fourthHoliday) && julyFourthIsOnWeekend == false) {
+            utilityFunctions.warningAlert("The business is closed on the 4th of July");
+            return false;
+        }
+        if (completeStart.toLocalDate().isEqual(newYearHoliday) && newYearsIsOnWeekend == false) {
+            utilityFunctions.warningAlert("The business is closed on New Years Day");
+            return false;
+        }
+        if (julyFourthIsOnWeekend) {
+            if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 7, 3))) {
+                utilityFunctions.warningAlert("This business is closed on Friday in observance of the 4th of July holiday");
+                return false;
+            }
+        }
+        if (newYearsIsOnWeekend) {
+            if (newYearHoliday.getDayOfWeek() == DayOfWeek.SATURDAY){
+                if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 1, 3))) {
+                    utilityFunctions.warningAlert("This business is closed on Monday in observance of New Years day");
+                    return false;
+                }
+            }
+            if (newYearHoliday.getDayOfWeek() == DayOfWeek.SUNDAY){
+                if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 1, 2))) {
+                    utilityFunctions.warningAlert("This business is closed on Monday in observance of New Years day");
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
-    //public static LocalDate tGCalculate(int year) {
-      //  LocalDate tGDate = Year.of(year).atMonth(Month.NOVEMBER).atDay(1).
-        //        with(TemporalAdjusters.lastInMonth(DayOfWeek.WEDNESDAY));
-        //return tGDate;
-    //}
     public static LocalDate tGCalculate(int year) {
         LocalDate tGDate = Year.of(year).atMonth(Month.NOVEMBER).atDay(1).
                 with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
         return tGDate;
     }
-
+    public static LocalDate julyFourthDate(int year) {
+        LocalDate julyFourthHoliday = Year.of(year).atMonth(Month.JULY).atDay(4);
+        return julyFourthHoliday;
+    }
+    public static LocalDate newYearsDay(int year) {
+        LocalDate newYearsHoliday = Year.of(year).atMonth(Month.JANUARY).atDay(1);
+        return newYearsHoliday;
+    }
 }

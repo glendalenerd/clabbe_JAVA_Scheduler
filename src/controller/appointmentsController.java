@@ -232,7 +232,9 @@ public class appointmentsController implements Initializable{
         //System.out.println("year: "+completeEnd.getYear());
         LocalDate tGHoliday = tGCalculate(localDateStart.getYear());
         System.out.println("thanksgiving: "+tGHoliday);
-
+        //System.out.println("start date: "+localDateStart);
+        //System.out.println("start date: "+completeStart.toLocalDate());
+        System.out.println("start year: "+completeStart.getYear());
         if (utilityFunctions.businessHourCheck(completeStart, completeEnd)){
             appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
                     apptType, completeStart, completeEnd, apptClientId, apptStylist);
