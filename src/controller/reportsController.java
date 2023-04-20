@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import src.database.clientQueries;
 import src.database.stylistQueries;
 import src.model.appointmentsModel;
 import src.model.clientModel;
@@ -22,15 +23,19 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class reportsController implements Initializable {
+    public ObservableList<clientModel> clientListUs = FXCollections.observableArrayList();
+    public ObservableList<clientModel> clientListCanada = FXCollections.observableArrayList();
+    public ObservableList<clientModel> clientListSpain = FXCollections.observableArrayList();
     public ObservableList<stylistModel> stylistList = FXCollections.observableArrayList();
     public ObservableList<appointmentsModel> apptList = FXCollections.observableArrayList();
     private ArrayList<Integer> stylistIdsList = new ArrayList<>();
+    private ArrayList<Integer> clientIdsList = new ArrayList<>();
     @FXML
     public TextArea clientApptsText;
     @FXML
     public TextArea stylistSchedules;
     @FXML
-    public TextArea apptsPerCountry;
+    public TextArea clientsPerCountry;
     @FXML
     public Button backButton;
     @Override
@@ -38,6 +43,7 @@ public class reportsController implements Initializable {
         try {
             reportForAppointments();
             reportForStylist();
+            reportForClients();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -46,6 +52,44 @@ public class reportsController implements Initializable {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
     }
 
+    /**
+     * Report that breaks down clients per country
+     * @throws SQLException
+     */
+    public void reportForClients() throws SQLException {
+        String canadaCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'Canada'";
+        String uSCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'United States'";
+        String spainCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'Spain'";
+        ResultSet canadaReportQuery = utilityFunctions.DBQuery(canadaCountryQuery);
+        clientsPerCountry.appendText("Clients that reside in Canada:");
+        clientsPerCountry.appendText("\n");
+        while (canadaReportQuery.next()) {
+            clientsPerCountry.appendText(canadaReportQuery.getString("name"));
+            clientsPerCountry.appendText("\n");
+        }
+        clientsPerCountry.appendText("\n");
+        ResultSet uSReportQuery = utilityFunctions.DBQuery(uSCountryQuery);
+        clientsPerCountry.appendText("Clients that reside in the United States:");
+        clientsPerCountry.appendText("\n");
+        while (uSReportQuery.next()) {
+            clientsPerCountry.appendText(uSReportQuery.getString("name"));
+            clientsPerCountry.appendText("\n");
+        }
+        clientsPerCountry.appendText("\n");
+        ResultSet spainReportQuery = utilityFunctions.DBQuery(spainCountryQuery);
+        clientsPerCountry.appendText("Clients that reside in Spain:");
+        clientsPerCountry.appendText("\n");
+        while (spainReportQuery.next()) {
+            clientsPerCountry.appendText(spainReportQuery.getString("name"));
+            clientsPerCountry.appendText("\n");
+        }
+        //clientsPerCountry.appendText("\n");
+    }
+
+    /**
+     * Report that displays number of appointments by type
+     * @throws SQLException
+     */
     public void reportForAppointments() throws SQLException {
         String apptSelectQuery = "SELECT count(*) as 'Number', week(start) AS 'Week',type AS 'Type' FROM appt " +
                 "GROUP BY start,type;";
@@ -61,6 +105,11 @@ public class reportsController implements Initializable {
             clientApptsText.appendText("\n");
         }
     }
+
+    /**
+     * Report that displays appointment schedules for stylists
+     * @throws SQLException
+     */
     public void reportForStylist() throws SQLException {
         stylistList = stylistQueries.getStylistList();
         for (stylistModel stylist : stylistList) {

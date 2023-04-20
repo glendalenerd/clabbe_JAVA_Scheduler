@@ -99,6 +99,10 @@ public class clientsController implements Initializable {
     });
 
     }
+
+    /**
+     * Used to clear all fields within the client screen
+     */
     public void clearFields(){
         clientNameField.clear();
         emailField.clear();
@@ -108,6 +112,11 @@ public class clientsController implements Initializable {
         stateProvField.clear();
         postalCodeField.clear();
     }
+
+    /**
+     * Takes all inputs provided from the user on the clients screen and creates a new client.
+     * @throws SQLException SQL exception handler
+     */
     public void addClient() throws SQLException {
         String clientName = clientNameField.getText();
         String clientEmail = emailField.getText();
@@ -123,6 +132,12 @@ public class clientsController implements Initializable {
         allClients.setAll(clientQueries.getClientList());
         clientTable.refresh();
     }
+
+    /**
+     * Takes all inputs provided from the user on the client screen and edits an existing client. Verifications are used
+     * to make sure the client does not have existing appointments before deleting.
+     * @throws SQLException SQL exception handler
+     */
     public void editClient() throws SQLException {
         clientModel previousClient = clientTable.getSelectionModel().getSelectedItem();
         clientModel editClient = new clientModel(
@@ -150,6 +165,11 @@ public class clientsController implements Initializable {
             clientTable.refresh();
         }
     }
+
+    /**
+     * Deletes an existing client, clears fields in the client screen and refreshes the client table
+     * @throws SQLException SQL exception handler
+     */
     public void deleteClient() throws SQLException {
         Integer selectedClientId = clientTable.getSelectionModel().getSelectedItem().getClientId();
         clientQueries.deleteClient(Integer.parseInt(String.valueOf(selectedClientId)));

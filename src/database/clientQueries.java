@@ -10,7 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used for methods related to clients including fetching the list of clients, adding and editing clients
+ */
 public class clientQueries {
+
+    /**
+     * Retrieving the list of clients that are part of the client table
+     * @return clientListAll
+     * @throws SQLException
+     */
     public static ObservableList<clientModel> getClientList() throws SQLException {
         ObservableList<clientModel> clientListAll = FXCollections.observableArrayList();
         String clientsQuery = "SELECT * FROM client";
@@ -30,6 +39,13 @@ public class clientQueries {
         }
         return clientListAll;
     }
+
+    /**
+     * Uses the client model to construct the INSERT command and uses the DBEXEC method to add the new client to the client
+     * table
+     * @param client
+     * @throws SQLException
+     */
     public static void addClient(clientModel client) throws SQLException {
         Integer clientId = client.getClientId();
         String clientName = client.getClientName();
@@ -45,6 +61,13 @@ public class clientQueries {
         //System.out.println(queryCommand+"("+queryText+");");
         utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
+
+    /**
+     * Uses client model to construct the UPDATE command and uses the DBEXEC method to edit the client in the
+     * client table
+     * @param client
+     * @throws SQLException
+     */
     public static void editClient(clientModel client) throws SQLException {
         String queryCommand = "UPDATE client SET ";
         String queryText = "name = '" + client.getClientName() + "', email = '" + client.getClientEmail() + "', haircolor = '" +
@@ -56,6 +79,13 @@ public class clientQueries {
             queryCommand+queryText
         );
     }
+
+    /**
+     * Constructs the SELECT command and uses the DBQuery method to retrieve a list of the client's appointments
+     * @param clientId
+     * @return clientApptList
+     * @throws SQLException
+     */
     public static List<Integer> getClientAppts(int clientId) throws SQLException {
         List<Integer> clientApptList = new ArrayList<>();
         String clientApptQuery = "SELECT idappt FROM appt WHERE clientid = " + clientId;
@@ -65,6 +95,12 @@ public class clientQueries {
         }
         return clientApptList;
     }
+
+    /**
+     * Constructs the DELETE command and uses the DBExec method to delete the client from the client table
+     * @param clientId
+     * @throws SQLException
+     */
     public static void deleteClient(int clientId) throws SQLException {
         //List<Integer> clientAppts = getClientAppts(clientId);
         String clientDeleteQuery = "DELETE FROM client WHERE idclient = " + clientId;

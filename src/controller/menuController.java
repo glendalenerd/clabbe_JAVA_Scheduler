@@ -25,18 +25,37 @@ public class menuController {
     @FXML
     public Button exitButton;
 
+    /**
+     * Navigates the user to the reports screen
+     * @param click
+     * @throws IOException
+     */
     public void reportsMenu(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/reports.fxml");
     }
 
+    /**
+     * Navigates the user to the appointments screen
+     * @param click
+     * @throws IOException
+     */
     public void appointmentsMenu(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/appointments.fxml");
     }
 
+    /**
+     * Navigates the user to the clients screen
+     * @param click
+     * @throws IOException
+     */
     public void clientsMenu(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/clients.fxml");
     }
 
+    /**
+     * Closes the program from the main menu
+     * @param click
+     */
     public void exitButtonClick(ActionEvent click) {
         JDBC.closeConnection();
         Stage newStage = (Stage) ((Node) click.getSource()).getScene().getWindow();

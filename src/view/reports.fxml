@@ -36,11 +36,11 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="apptsPerCountryTab" text="Total Appts Per Country">
+            <Tab fx:id="clientsPerCountryTab" text="Clients Per Country">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="apptsPerCountry" layoutX="-2.0" layoutY="-1.0" prefHeight="294.0" prefWidth="610.0" />
+                        <TextArea fx:id="clientsPerCountry" layoutX="-2.0" layoutY="-1.0" prefHeight="294.0" prefWidth="610.0" />
                      </children>
                   </AnchorPane>
               </content>

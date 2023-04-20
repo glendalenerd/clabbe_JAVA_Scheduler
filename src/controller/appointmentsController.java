@@ -113,6 +113,9 @@ public class appointmentsController implements Initializable{
     apptEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
     apptClientIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptClientId"));
 
+    /**
+     * This is a lambda listener that is used to listen for selection of fields and updates those fields as necessary
+     */
     //Lambda listener used to listen for selection of fields and update fields as necessary
     apptTable.getSelectionModel().selectedItemProperty().addListener((origEntry, oldEntry, newEntry) -> {
         if (newEntry != null) {
@@ -160,6 +163,9 @@ public class appointmentsController implements Initializable{
 
     }
 
+    /**
+     * Used to clear all fields within the appointment screen
+     */
     public void clearFields() {
         apptIdField.clear();
         apptTitleField.clear();
@@ -176,6 +182,10 @@ public class appointmentsController implements Initializable{
         apptEndMinuteField.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Filters appointments by week
+     * @throws SQLException SQL exception handler
+     */
     public void weekRadioFilter() throws SQLException {
         allRadioButton.setSelected(false);
         monthRadioButton.setSelected(false);
@@ -191,6 +201,11 @@ public class appointmentsController implements Initializable{
         apptTable.setItems(apptsWeek);
         apptTable.refresh();
     }
+
+    /**
+     * Filters appointments by month
+     * @throws SQLException SQL exception handler
+     */
     public void monthRadioFilter() throws SQLException {
         weekRadioButton.setSelected(false);
         allRadioButton.setSelected(false);
@@ -206,6 +221,11 @@ public class appointmentsController implements Initializable{
         apptTable.setItems(apptsMonth);
         apptTable.refresh();
     }
+
+    /**
+     * Filters appointments by all, which shows all appointments
+     * @throws SQLException SQL exception handler
+     */
     public void allRadioFilter() throws SQLException {
         weekRadioButton.setSelected(false);
         monthRadioButton.setSelected(false);
@@ -214,6 +234,11 @@ public class appointmentsController implements Initializable{
         apptTable.refresh();
     }
 
+    /**
+     * Takes all inputs provided from the user on the appointments screen and creates a new appointment. BusinessHourCheck
+     * method is used to verify that the appointment is not on a holiday and that it falls within normal business hours.
+     * @throws SQLException SQL exception handler
+     */
     public void newAppointment() throws SQLException {
         String apptTitle = apptTitleField.getText();
         String apptDesc = apptDescField.getText();
@@ -221,20 +246,14 @@ public class appointmentsController implements Initializable{
         Integer apptStylist = (Integer) apptStylistField.getSelectionModel().getSelectedItem();
         String apptType = apptTypeField.getText();
         Integer apptClientId = Integer.valueOf(apptClientIdField.getText());
-        System.out.println(apptClientId);
         LocalDate localDateStart = apptStartDatePicker.getValue();
         LocalDate localDateEnd = apptEndDatePicker.getValue();
         LocalTime localTimeStart = LocalTime.of((Integer) aptStartHourField.getValue(), (Integer) aptStartMinuteField.getValue());
         LocalTime localTimeEnd = LocalTime.of((Integer) apptEndHourField.getValue(), (Integer) apptEndMinuteField.getValue());
         LocalDateTime completeStart = LocalDateTime.of(localDateStart, localTimeStart);
         LocalDateTime completeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
-        //System.out.println("month: "+completeEnd.getMonth());
-        //System.out.println("year: "+completeEnd.getYear());
-        LocalDate tGHoliday = tGCalculate(localDateStart.getYear());
-        System.out.println("thanksgiving: "+tGHoliday);
-        //System.out.println("start date: "+localDateStart);
-        //System.out.println("start date: "+completeStart.toLocalDate());
-        System.out.println("start year: "+completeStart.getYear());
+        //LocalDate tGHoliday = tGCalculate(localDateStart.getYear());
+        LocalDate tGHoliday = tGCalculate.apply(localDateStart.getYear());
         if (utilityFunctions.businessHourCheck(completeStart, completeEnd)){
             appointmentsModel appointment = new appointmentsModel(appointmentsModel.newApptId(), apptTitle, apptDesc, apptLocation,
                     apptType, completeStart, completeEnd, apptClientId, apptStylist);
@@ -244,6 +263,12 @@ public class appointmentsController implements Initializable{
             apptTable.refresh();
         }
     }
+
+    /**
+     * Takes all inputs provided from the user on the appointments screen and edits an existing appointment. BusinessHourCheck
+     * method is used to verify that the appointment is not on a holiday and that it falls within normal business hours.
+     * @throws SQLException SQL exception handler
+     */
     public void editAppointment() throws SQLException {
         appointmentsModel previousAppt = apptTable.getSelectionModel().getSelectedItem();
         String apptTitle = apptTitleField.getText();
@@ -268,6 +293,11 @@ public class appointmentsController implements Initializable{
         allAppointments.setAll(appointmentQueries.getAppointmentsList());
         apptTable.refresh();
     }
+
+    /**
+     * Deletes an appointment, clears fields and refreshes the appointment table
+     * @throws SQLException SQL exception handler
+     */
     public void deleteAppointment() throws SQLException {
         appointmentsModel selectedAppts = apptTable.getSelectionModel().getSelectedItem();
         Integer apptToDelete = selectedAppts.getApptId();
@@ -277,6 +307,12 @@ public class appointmentsController implements Initializable{
         clearFields();
         apptTable.refresh();
     }
+
+    /**
+     * Sends the user back to the main menu
+     * @param click ActionEvent
+     * @throws IOException IO exception handler
+     */
     public void menuReturn(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
     }

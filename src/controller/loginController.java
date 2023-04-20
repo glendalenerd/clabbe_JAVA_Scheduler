@@ -67,6 +67,13 @@ public class loginController implements Initializable {
         exitButton.setText(languages.getString("button.exit"));
     }
 
+    /**
+     * Button click that logs the user in after verifying the user name and password. Also, a check is used to notify if an
+     * appointment is starting (or not starting) with 15 minutes.
+     * @param click
+     * @throws IOException
+     * @throws SQLException
+     */
     public void loginButtonClick(ActionEvent click) throws IOException, SQLException {
         String userName = userField.getText();
         String password = passField.getText();
@@ -115,6 +122,11 @@ public class loginController implements Initializable {
 
 
     }
+
+    /**
+     * Closes the program when the user click on the exit button
+     * @param click
+     */
     public void exitButtonClick(ActionEvent click) {
         JDBC.closeConnection();
         Stage newStage = (Stage) ((Node) click.getSource()).getScene().getWindow();

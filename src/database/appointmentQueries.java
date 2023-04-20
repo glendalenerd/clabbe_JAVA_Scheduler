@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * class used for methods related to retrieving the list of all appointments, adding and editing appointments
+ */
 public class appointmentQueries {
     public static ObservableList<appointmentsModel> getAppointmentsList() throws SQLException {
         ObservableList<appointmentsModel> appointmentsListAll = FXCollections.observableArrayList();
@@ -32,6 +35,13 @@ public class appointmentQueries {
         }
         return appointmentsListAll;
     }
+
+    /**
+     * Uses appointment model to construct the INSERT command and uses the DBEXEC method to add the appointment to the
+     * appointments table
+     * @param appointment
+     * @throws SQLException
+     */
     public static void addAppointment(appointmentsModel appointment) throws SQLException {
         Integer apptId = appointment.getApptId();
         String apptTitle = appointment.getApptTitle();
@@ -50,6 +60,13 @@ public class appointmentQueries {
         //System.out.println(queryCommand+"("+queryText+");");
         utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
+
+    /**
+     * Uses appointment model to construct the UPDATE command and uses the DBEXEC method to edit the appointment in the
+     * appointments table
+     * @param appointment
+     * @throws SQLException
+     */
     public static void editAppointment(appointmentsModel appointment) throws SQLException {
         String queryCommand = "UPDATE appt SET ";
         String queryText = "titlle = '"+appointment.getApptTitle()+"', descr = '"+appointment.getApptDesc()+"', location = '"+

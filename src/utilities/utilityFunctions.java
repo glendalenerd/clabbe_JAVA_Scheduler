@@ -20,6 +20,7 @@ import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class utilityFunctions {
 
@@ -33,6 +34,12 @@ public class utilityFunctions {
         alert.setContentText(text);
         alert.showAndWait();
     }
+
+    /**
+     *
+     * @param universal universal time
+     * @return Local Date Time, US/mountain time
+     */
     public static LocalDateTime getLocalBusTime(LocalDateTime universal) {
         ZonedDateTime universalZoned = universal.atZone(getZoneId());
         return universalZoned.toLocalDateTime().atZone(ZoneId.of("UTC")).
@@ -44,6 +51,11 @@ public class utilityFunctions {
         ZonedDateTime universalZone = timeDateZone.withZoneSameInstant(ZoneId.of("UTC"));
         return universalZone.toLocalDateTime();
     }
+
+    /**
+     *
+     * @return system zone ID
+     */
     public static ZoneId getZoneId() {
         return ZoneId.systemDefault();
     }
@@ -97,7 +109,7 @@ public class utilityFunctions {
         LocalDateTime businessTimeEnd = utilityFunctions.getLocalBusTime(universalEnd);
         LocalTime officeOpenTime = LocalTime.of(8, 0,0);
         LocalTime officeCloseTime = LocalTime.of(22,0,0);
-        LocalDate tGHoliday = tGCalculate(completeStart.getYear());
+        LocalDate tGHoliday = tGCalculate.apply(completeStart.getYear());
         LocalDate tGDayAfter = tGHoliday.plusDays(1);
         //System.out.println(tGDayAfter.getDayOfWeek());
         LocalDate fourthHoliday = julyFourthDate(completeStart.getYear());
@@ -114,7 +126,6 @@ public class utilityFunctions {
         if (firstWeekday == DayOfWeek.SATURDAY || firstWeekday == DayOfWeek.SUNDAY) {
             newYearsIsOnWeekend = true;
         }
-        //System.out.println("day of week: "+fourthWeekday);
         if (businessTimeStart.toLocalTime().isBefore(officeOpenTime) || businessTimeStart.toLocalTime().isAfter(officeCloseTime)) {
             utilityFunctions.warningAlert("This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST");
             return false;
@@ -154,11 +165,16 @@ public class utilityFunctions {
         return true;
     }
 
-    public static LocalDate tGCalculate(int year) {
-        LocalDate tGDate = Year.of(year).atMonth(Month.NOVEMBER).atDay(1).
-                with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
-        return tGDate;
-    }
+    /**
+     * lambda expression to calculate (find) the date for Thanksgiving for a given year
+     */
+    public static Function<Integer, LocalDate> tGCalculate = year ->
+            Year.of(year)
+                    .atMonth(Month.NOVEMBER)
+                    .atDay(1)
+                    .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
+
+
     public static LocalDate julyFourthDate(int year) {
         LocalDate julyFourthHoliday = Year.of(year).atMonth(Month.JULY).atDay(4);
         return julyFourthHoliday;

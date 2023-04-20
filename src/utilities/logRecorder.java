@@ -6,9 +6,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
 
+/**
+ * class for log recording
+ */
 public class logRecorder {
     private static String fileName = "loginRecord.txt";
     public logRecorder() {}
+
+    /**
+     *
+     * @param user username
+     * @param pass password
+     * @param isValid boolean value - true for valid, false for invalid
+     * @throws IOException
+     */
     public static void logRecord(String user, String pass, boolean isValid) throws IOException {
         FileWriter fileWrite = new FileWriter(fileName, true);
         BufferedWriter bufferedWrite = new BufferedWriter(fileWrite);
