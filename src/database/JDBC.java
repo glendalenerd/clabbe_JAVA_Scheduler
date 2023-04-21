@@ -23,9 +23,7 @@ public class JDBC {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(jdbcUrl, userName, password);
-            System.out.println("Connection successful");
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Error:" + e.getMessage());
         }
     }
 

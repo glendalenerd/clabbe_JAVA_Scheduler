@@ -277,7 +277,6 @@ public class appointmentsController implements Initializable{
         Integer apptStylist = (Integer) apptStylistField.getSelectionModel().getSelectedItem();
         String apptType = apptTypeField.getText();
         Integer apptClientId = Integer.valueOf(apptClientIdField.getText());
-        System.out.println(apptClientId);
         LocalDate localDateStart = apptStartDatePicker.getValue();
         LocalDate localDateEnd = apptEndDatePicker.getValue();
         LocalTime localTimeStart = LocalTime.of((Integer) aptStartHourField.getValue(), (Integer) aptStartMinuteField.getValue());

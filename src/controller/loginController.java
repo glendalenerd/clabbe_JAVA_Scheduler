@@ -88,10 +88,8 @@ public class loginController implements Initializable {
                 boolean oncomingAppt = false;
                 loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
                 ObservableList<appointmentsModel> appointments = appointmentQueries.getAppointmentsList();
-                System.out.println("appt model: "+appointments);
                 for (appointmentsModel a : appointments) {
                     apptStartTimes.add(a.getApptStart());
-                    System.out.println(apptStartTimes);
                 }
                 for (LocalDateTime startTime : apptStartTimes) {
                     Timestamp start = Timestamp.valueOf(startTime);

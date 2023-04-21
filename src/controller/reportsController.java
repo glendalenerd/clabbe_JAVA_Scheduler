@@ -93,7 +93,6 @@ public class reportsController implements Initializable {
     public void reportForAppointments() throws SQLException {
         String apptSelectQuery = "SELECT count(*) as 'Number', week(start) AS 'Week',type AS 'Type' FROM appt " +
                 "GROUP BY start,type;";
-        System.out.println(apptSelectQuery);
         ResultSet apptReportQuery = utilityFunctions.DBQuery(apptSelectQuery);
         while (apptReportQuery.next()) {
             String count = "Count: "+apptReportQuery.getString("Number");
