@@ -97,7 +97,7 @@ public class reportsController implements Initializable {
         while (apptReportQuery.next()) {
             String count = "Count: "+apptReportQuery.getString("Number");
             String week = "Week: "+apptReportQuery.getString("Week");
-            String type = "Type: "+apptReportQuery.getString("Number");
+            String type = "Type: "+apptReportQuery.getString("Type");
             clientApptsText.appendText("-------");
             clientApptsText.appendText("\n");
             clientApptsText.appendText(String.format("%-25s%-25s%-25s", count, week, type));

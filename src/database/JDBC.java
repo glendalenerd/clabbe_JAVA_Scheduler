@@ -30,7 +30,12 @@ public class JDBC {
     /**
      * @return Database connection handle
      */
-    public static Connection getConnection() { return connection;}
+    public static Connection getConnection() {
+        if (connection == null) {
+            makeConnection();
+        }
+        return connection;
+    }
 
     /**
      * Closing the database connection

@@ -6,8 +6,10 @@ import src.model.appointmentsModel;
 import src.model.clientModel;
 import src.utilities.utilityFunctions;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -39,7 +41,7 @@ public class appointmentQueries {
     /**
      * Uses appointment model to construct the INSERT command and uses the DBEXEC method to add the appointment to the
      * appointments table
-     * @param appointment
+     * @param appointment is used for the appointment model.
      * @throws SQLException
      */
     public static void addAppointment(appointmentsModel appointment) throws SQLException {
@@ -52,19 +54,41 @@ public class appointmentQueries {
         //LocalDateTime apptStart = appointment.getApptStart();
         //LocalDateTime apptEnd = appointment.getApptEnd();
         int apptClientId = appointment.getApptClientId();
-        String queryCommand = "INSERT INTO appt VALUES ";
-        String queryText = apptId+", '"+apptTitle+"', '"+apptDesc+"', '"+apptLocation+"', '"+apptType+"', " +
-                "'"+appointment.getApptStart()+"', " +
-                "'"+appointment.getApptEnd()+"', " +
-                "'"+apptClientId+"', '"+apptStylist+"'";
+        //String queryCommand = "INSERT INTO appt VALUES(null, ?,?,?,?,?,?,?,?) ";
+        //PreparedStatement ps = JDBC.getConnection().prepareStatement(queryCommand);
+        //ps.setString(1, apptTitle);
+        //ps.setString(2, apptDesc);
+        //ps.setString(3, apptLocation);
+        //ps.setInt(4, apptStylist);
+        //ps.setString(5, apptType);
+        //ps.setTimestamp(6, Timestamp.valueOf(appointment.getApptStart()));
+        //ps.setTimestamp(7, Timestamp.valueOf(appointment.getApptEnd()));
+        //ps.setInt(8, apptClientId);
+        //ps.executeUpdate();
+        String queryCommand = "INSERT INTO appt VALUES(?,?,?,?,?,?,?,?,?) ";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(queryCommand);
+        ps.setInt(1, apptId);
+        ps.setString(2, apptTitle);
+        ps.setString(3, apptDesc);
+        ps.setString(4, apptLocation);
+        ps.setString(5, apptType);
+        ps.setTimestamp(6, Timestamp.valueOf(appointment.getApptStart()));
+        ps.setTimestamp(7, Timestamp.valueOf(appointment.getApptEnd()));
+        ps.setInt(8, apptClientId);
+        ps.setInt(9, apptStylist);
+        ps.executeUpdate();
+        //String queryText = apptId+", '"+apptTitle+"', '"+apptDesc+"', '"+apptLocation+"', '"+apptType+"', " +
+          //      "'"+appointment.getApptStart()+"', " +
+            //    "'"+appointment.getApptEnd()+"', " +
+              //  "'"+apptClientId+"', '"+apptStylist+"'";
         //System.out.println(queryCommand+"("+queryText+");");
-        utilityFunctions.DBExec(queryCommand+"("+queryText+");");
+        //utilityFunctions.DBExec(queryCommand+"("+queryText+");");
     }
 
     /**
      * Uses appointment model to construct the UPDATE command and uses the DBEXEC method to edit the appointment in the
      * appointments table
-     * @param appointment
+     * @param appointment is the used for the appointment model
      * @throws SQLException
      */
     public static void editAppointment(appointmentsModel appointment) throws SQLException {

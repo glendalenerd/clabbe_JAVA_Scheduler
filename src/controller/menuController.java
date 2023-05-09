@@ -45,7 +45,7 @@ public class menuController {
 
     /**
      * Navigates the user to the clients screen
-     * @param click
+     * @param click ActionEvent is used. When the user click on the Clients button, they are taken to the Clients screen.
      * @throws IOException
      */
     public void clientsMenu(ActionEvent click) throws IOException {
@@ -54,7 +54,7 @@ public class menuController {
 
     /**
      * Closes the program from the main menu
-     * @param click
+     * @param click ActionEvent is used. When the user clicks on the exit button, the connection is closed.
      */
     public void exitButtonClick(ActionEvent click) {
         JDBC.closeConnection();

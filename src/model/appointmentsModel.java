@@ -32,6 +32,7 @@ public class appointmentsModel {
      * @param apptClientId Client ID
      * @param apptStylist Stylist ID
      */
+
     public appointmentsModel(int apptId, String apptTitle, String apptDesc, String apptLocation, String apptType,
                              LocalDateTime apptStart, LocalDateTime apptEnd, int apptClientId, int apptStylist) {
         this.apptId = apptId;

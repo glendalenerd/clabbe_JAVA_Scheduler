@@ -26,7 +26,7 @@ public class utilityFunctions {
 
     /**
      * Takes string text and displays that text in an alert message as a warning
-     * @param text
+     * @param text is the text that will be used in the warning message
      */
     public static void warningAlert(String text) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -46,6 +46,11 @@ public class utilityFunctions {
                 withZoneSameInstant(ZoneId.of("US/Mountain")).toLocalDateTime();
     }
 
+    public static LocalDateTime convertLocalTime (LocalDateTime utc) {
+        ZonedDateTime zoneUTC = utc.atZone(getZoneId());
+        return zoneUTC.toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(getZoneId()).toLocalDateTime();
+    }
+
     public static LocalDateTime getUTCTime(LocalDateTime timeAndDate){
         ZonedDateTime timeDateZone = timeAndDate.atZone(getZoneId());
         ZonedDateTime universalZone = timeDateZone.withZoneSameInstant(ZoneId.of("UTC"));
@@ -60,6 +65,11 @@ public class utilityFunctions {
         return ZoneId.systemDefault();
     }
 
+    /**
+     * Used to convert local time to UTC
+     * @param localClock current local time
+     * @return universal zone time to local date time
+     */
     public static LocalDateTime getUniversalTime(LocalDateTime localClock) {
         ZonedDateTime localClockZoned = localClock.atZone(getZoneId());
         ZonedDateTime UniversalZoned = localClockZoned.withZoneSameInstant(ZoneId.of("UTC"));
@@ -92,16 +102,35 @@ public class utilityFunctions {
     }
     public static final Connection database = JDBC.getConnection();
 
+    /**
+     * Used to execute a prepared statement
+     * @param dbQuery the query in string form that will be executed
+     * @throws SQLException
+     */
     public static void DBExec(String dbQuery) throws SQLException {
         PreparedStatement ps = database.prepareStatement(dbQuery);
         ps.execute();
     }
+
+    /**
+     * Used to submit a query and return the result set
+     * @param dbQuery the query in string form that will be executed
+     * @return the result set from the executed query
+     * @throws SQLException
+     */
     public static ResultSet DBQuery(String dbQuery) throws SQLException {
         PreparedStatement ps = database.prepareStatement(dbQuery);
         ResultSet rs;
         return rs = ps.executeQuery();
     }
 
+    /**
+     *
+     * @param completeStart is the start date and start time of the appointment combined
+     * @param completeEnd is the end date and end time of the appointment combined
+     * @return true or false depending on outcome of verification checks determining if the appointment falls within
+     * business hours or on a holiday
+     */
     public static boolean businessHourCheck(LocalDateTime completeStart, LocalDateTime completeEnd) {
         LocalDateTime universalStart = utilityFunctions.getUniversalTime(completeStart);
         LocalDateTime universalEnd = utilityFunctions.getUniversalTime(completeEnd);
@@ -174,11 +203,21 @@ public class utilityFunctions {
                     .atDay(1)
                     .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
 
-
+    /**
+     *
+     * @param year that is being used to calculate the day of the week 4th of July falls on
+     * @return 4th of July date for that year, which can be used to figure out the day of the week.
+     */
     public static LocalDate julyFourthDate(int year) {
         LocalDate julyFourthHoliday = Year.of(year).atMonth(Month.JULY).atDay(4);
         return julyFourthHoliday;
     }
+
+    /**
+     *
+     * @param year that is being used to calculate the day of the week New Years day falls on
+     * @return New Years day for that year, which can be used to figure out the day of the week.
+     */
     public static LocalDate newYearsDay(int year) {
         LocalDate newYearsHoliday = Year.of(year).atMonth(Month.JANUARY).atDay(1);
         return newYearsHoliday;

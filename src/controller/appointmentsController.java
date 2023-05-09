@@ -95,12 +95,24 @@ public class appointmentsController implements Initializable{
     public RadioButton monthRadioButton;
     @FXML
     public RadioButton allRadioButton;
+
+    /**
+     * Lambda expression is used to incorporate a listener on the appointment that is selected within the table. Once an
+     * appointment is selected, all text fields for the appointment will automatically be filled for the user with data
+     * from the appointment. This is a feature that adds convenience for the user.
+     * @param url unused
+     * @param resourceBundle unused
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allAppointments.setAll(appointmentQueries.getAppointmentsList());
         } catch (SQLException i) {
             throw new RuntimeException(i);
         }
+    //for (appointmentsModel apt : allAppointments) {
+        //apt.apptStart = utilityFunctions.convertLocalTime(apt.getApptStart());
+        //apt.apptEnd = utilityFunctions.convertLocalTime(apt.getApptEnd());
+    //}
     apptTable.setItems(allAppointments);
     apptTable.refresh();
     apptIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
@@ -113,9 +125,6 @@ public class appointmentsController implements Initializable{
     apptEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
     apptClientIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptClientId"));
 
-    /**
-     * This is a lambda listener that is used to listen for selection of fields and updates those fields as necessary
-     */
     //Lambda listener used to listen for selection of fields and update fields as necessary
     apptTable.getSelectionModel().selectedItemProperty().addListener((origEntry, oldEntry, newEntry) -> {
         if (newEntry != null) {
@@ -260,6 +269,10 @@ public class appointmentsController implements Initializable{
             src.database.appointmentQueries.addAppointment(appointment);
             clearFields();
             allAppointments.setAll(appointmentQueries.getAppointmentsList());
+            //for (appointmentsModel apt : allAppointments) {
+                //apt.apptStart = utilityFunctions.convertLocalTime(apt.getApptStart());
+                //apt.apptEnd = utilityFunctions.convertLocalTime(apt.getApptEnd());
+            //}
             apptTable.refresh();
         }
     }
@@ -302,6 +315,8 @@ public class appointmentsController implements Initializable{
         Integer apptToDelete = selectedAppts.getApptId();
         String deleteCommand = "DELETE FROM appt WHERE idappt="+apptToDelete;
         utilityFunctions.DBExec(deleteCommand);
+        utilityFunctions.warningAlert("Appointment ID "+selectedAppts.getApptId()+" , with type: "+
+                apptTypeField.getText()+" was deleted");
         allAppointments.setAll(appointmentQueries.getAppointmentsList());
         clearFields();
         apptTable.refresh();
@@ -309,7 +324,7 @@ public class appointmentsController implements Initializable{
 
     /**
      * Sends the user back to the main menu
-     * @param click ActionEvent
+     * @param click ActionEvent is used. When the user clicks on the back button, they are taken back to the main menu.
      * @throws IOException IO exception handler
      */
     public void menuReturn(ActionEvent click) throws IOException {

@@ -43,7 +43,7 @@ public class clientQueries {
     /**
      * Uses the client model to construct the INSERT command and uses the DBEXEC method to add the new client to the client
      * table
-     * @param client
+     * @param client is used for the client model.
      * @throws SQLException
      */
     public static void addClient(clientModel client) throws SQLException {
@@ -65,7 +65,7 @@ public class clientQueries {
     /**
      * Uses client model to construct the UPDATE command and uses the DBEXEC method to edit the client in the
      * client table
-     * @param client
+     * @param client is used for the client model.
      * @throws SQLException
      */
     public static void editClient(clientModel client) throws SQLException {
@@ -82,7 +82,7 @@ public class clientQueries {
 
     /**
      * Constructs the SELECT command and uses the DBQuery method to retrieve a list of the client's appointments
-     * @param clientId
+     * @param clientId is used in the query to retrieve that client's appointments.
      * @return clientApptList
      * @throws SQLException
      */
@@ -98,7 +98,7 @@ public class clientQueries {
 
     /**
      * Constructs the DELETE command and uses the DBExec method to delete the client from the client table
-     * @param clientId
+     * @param clientId is used within the delete command to delete the client.
      * @throws SQLException
      */
     public static void deleteClient(int clientId) throws SQLException {

@@ -10,7 +10,7 @@ import java.time.Instant;
  * class for log recording
  */
 public class logRecorder {
-    private static String fileName = "loginRecord.txt";
+    private static String fileName = "log.txt";
     public logRecorder() {}
 
     /**

@@ -65,6 +65,13 @@ public class clientsController implements Initializable {
     @FXML
     public Button clearFieldsButton;
 
+    /**
+     * Lambda expression is used to incorporate a listener on the client that is selected within the table. Once a client
+     * is selected, all text fields for the client will automatically be filled for the user with data from the client.
+     * This is a feature that adds convenience for the user
+     * @param url unused
+     * @param resourceBundle unused
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allClients.setAll(clientQueries.getClientList());

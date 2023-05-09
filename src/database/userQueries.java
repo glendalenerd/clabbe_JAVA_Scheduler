@@ -14,9 +14,9 @@ public class userQueries {
 
     /**
      * Verifies user name and password
-     * @param user
-     * @param password
-     * @return Math Max
+     * @param user that will be verified
+     * @param password that will be verified with the user
+     * @return Math Max that gives the next sequential number to be used for the user ID
      * @throws SQLException
      */
     public static int loginVerify(String user, String password) throws SQLException {
@@ -31,7 +31,7 @@ public class userQueries {
 
     /**
      * Retrieves the user ID
-     * @param UserName
+     * @param UserName that will be used in the query to fetch the User ID
      * @return userId
      * @throws SQLException
      */

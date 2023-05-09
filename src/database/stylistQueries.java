@@ -32,7 +32,7 @@ public class stylistQueries {
 
     /**
      * Retrieves the complete list of stylists from the stylist table
-     * @return StylistListAll
+     * @return StylistListAll, the list of all stylists
      * @throws SQLException
      */
     public static ObservableList<stylistModel> getStylistList() throws SQLException {

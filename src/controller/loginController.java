@@ -70,7 +70,7 @@ public class loginController implements Initializable {
     /**
      * Button click that logs the user in after verifying the user name and password. Also, a check is used to notify if an
      * appointment is starting (or not starting) with 15 minutes.
-     * @param click
+     * @param click is the action event used. When the login button is clicked, the login process will commence.
      * @throws IOException
      * @throws SQLException
      */
@@ -123,7 +123,7 @@ public class loginController implements Initializable {
 
     /**
      * Closes the program when the user click on the exit button
-     * @param click
+     * @param click is the action event used. When the exit button is clicked, the connection will close.
      */
     public void exitButtonClick(ActionEvent click) {
         JDBC.closeConnection();
