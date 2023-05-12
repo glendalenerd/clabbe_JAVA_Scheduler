@@ -75,6 +75,8 @@ public class loginController implements Initializable {
      * @throws SQLException
      */
     public void loginButtonClick(ActionEvent click) throws IOException, SQLException {
+        Locale locale = Locale.getDefault();
+        System.out.println(Locale.getDefault());
         String userName = userField.getText();
         String password = passField.getText();
         if (userName.isEmpty() || password.isEmpty()) {
@@ -100,10 +102,20 @@ public class loginController implements Initializable {
 
                 }
                 if (!oncomingAppt) {
-                    utilityFunctions.warningAlert("No appointments are starting within the next 15 minutes");
+                    if (locale.equals(Locale.forLanguageTag("es-ES"))){
+                        utilityFunctions.warningAlert("No hay citas comenzando dentro de los próximos 15 minutos");
+                    }
+                    else {
+                        utilityFunctions.warningAlert("No appointments are starting within the next 15 minutes");
+                    }
                 }
                 else {
-                    utilityFunctions.warningAlert("There are appointments starting within the next 15 minutes");
+                    if (locale.equals(Locale.forLanguageTag("es-ES"))){
+                        utilityFunctions.warningAlert("Hay citas a partir de los próximos 15 minutos");
+                    }
+                    else {
+                        utilityFunctions.warningAlert("There are appointments starting within the next 15 minutes");
+                    }
                 }
                 //List<Integer> currentAppts = userQueries.
                 utilityFunctions.menuOpen(click, "../view/menu.fxml");

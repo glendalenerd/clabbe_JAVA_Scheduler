@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.loginController">
+<AnchorPane prefHeight="400.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controller.loginController">
    <children>
       <Label fx:id="loginTitle" layoutX="192.0" layoutY="14.0" text="Salon Appointment System">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" layoutX="182.0" layoutY="105.0" prefHeight="27.0" prefWidth="46.0" text="User:">
+      <Label fx:id="userLabel" layoutX="170.0" layoutY="105.0" prefHeight="27.0" prefWidth="79.0" text="User:">
          <font>
             <Font size="18.0" />
          </font>
@@ -26,7 +26,7 @@
       <TextField fx:id="userField" layoutX="271.0" layoutY="106.0" />
       <TextField fx:id="passField" layoutX="271.0" layoutY="159.0" />
       <Button fx:id="loginButton" layoutX="300.0" layoutY="206.0" mnemonicParsing="false" onAction="#loginButtonClick" text="Login" />
-      <Button fx:id="exitButton" layoutX="550.0" layoutY="360.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
+      <Button fx:id="exitButton" layoutX="531.0" layoutY="360.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
       <Label fx:id="locationLabel" layoutX="14.0" layoutY="364.0" text="Location:" />
       <Label fx:id="userLocation" layoutX="72.0" layoutY="364.0" text="userLocation" />
    </children>

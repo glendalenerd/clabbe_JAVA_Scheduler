@@ -2,19 +2,25 @@ package src.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import src.database.JDBC;
 import src.utilities.utilityFunctions;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.ZoneId;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Main Menu Controller
  * @author Chris Labbe
  */
-public class menuController {
+public class menuController implements Initializable {
 
     @FXML
     public Button clientsButton;
@@ -24,6 +30,17 @@ public class menuController {
     public Button reportsButton;
     @FXML
     public Button exitButton;
+    @FXML
+    public Label mainMenuText;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        utilityFunctions.localeSet();
+        ResourceBundle languages = ResourceBundle.getBundle("src.Bundle", Locale.getDefault());
+        mainMenuText.setText(languages.getString("label.mainMenuText"));
+        exitButton.setText(languages.getString("button.exit"));
+        reportsButton.setText(languages.getString("button.reportsButton"));
+        appointmentsButton.setText(languages.getString("button.appointmentsButton"));
+        clientsButton.setText(languages.getString("button.clientsButton"));
+    }
 
     /**
      * Navigates the user to the reports screen

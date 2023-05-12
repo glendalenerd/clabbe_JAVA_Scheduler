@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import src.database.clientQueries;
 import src.database.stylistQueries;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class reportsController implements Initializable {
@@ -37,7 +40,15 @@ public class reportsController implements Initializable {
     @FXML
     public TextArea clientsPerCountry;
     @FXML
+    public Tab clientApptsTab;
+    @FXML
+    public Tab stylistSchedulesTab;
+    @FXML
+    public Tab clientsPerCountryTab;
+    @FXML
     public Button backButton;
+    @FXML
+    public Label reportsHeaderLabel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -47,6 +58,13 @@ public class reportsController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        ResourceBundle languages = ResourceBundle.getBundle("src.Bundle", Locale.getDefault());
+        reportsHeaderLabel.setText(languages.getString("label.reportsHeader"));
+        clientApptsTab.setText(languages.getString("tab.clientApptsTab"));
+        stylistSchedulesTab.setText(languages.getString("tab.stylistSchedules"));
+        clientsPerCountryTab.setText(languages.getString("tab.clientsPerCountry"));
+        backButton.setText(languages.getString("button.backButton"));
     }
     public void menuReturn(ActionEvent click) throws IOException {
         utilityFunctions.menuOpen(click, "../view/menu.fxml");
@@ -62,6 +80,7 @@ public class reportsController implements Initializable {
         String spainCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'Spain'";
         ResultSet canadaReportQuery = utilityFunctions.DBQuery(canadaCountryQuery);
         clientsPerCountry.appendText("Clients that reside in Canada:");
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
         clientsPerCountry.appendText("\n");
         while (canadaReportQuery.next()) {
             clientsPerCountry.appendText(canadaReportQuery.getString("name"));

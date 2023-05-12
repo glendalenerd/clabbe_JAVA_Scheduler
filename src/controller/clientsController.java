@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static src.database.clientQueries.getClientAppts;
@@ -64,6 +65,24 @@ public class clientsController implements Initializable {
     public Button backButton;
     @FXML
     public Button clearFieldsButton;
+    @FXML
+    public Label clientHeader;
+    @FXML
+    public Label clientNameLabel;
+    @FXML
+    public Label clientEmailLabel;
+    @FXML
+    public Label clientPrefHairColorLabel;
+    @FXML
+    public Label activeStatusLabel;
+    @FXML
+    public Label stateProvLabel;
+    @FXML
+    public Label countryLabel;
+    @FXML
+    public Label postalCodeLabel;
+
+
 
     /**
      * Lambda expression is used to incorporate a listener on the client that is selected within the table. Once a client
@@ -90,7 +109,6 @@ public class clientsController implements Initializable {
     clientPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("clientZipCode"));
 
     String countryChoices[] = {"United States", "Canada", "Spain"};
-    countryChoiceBox.setItems(FXCollections.observableArrayList(countryChoices));
 
     //Lambda listener used to listen for selection of fields and update fields as necessary
     clientTable.getSelectionModel().selectedItemProperty().addListener((origEntry, oldEntry, newEntry) -> {
@@ -105,6 +123,28 @@ public class clientsController implements Initializable {
         }
     });
 
+    countryChoiceBox.setItems(FXCollections.observableArrayList(countryChoices));
+    ResourceBundle languages = ResourceBundle.getBundle("src.Bundle", Locale.getDefault());
+    clientHeader.setText(languages.getString("label.clientHeader"));
+    clientNameLabel.setText(languages.getString("label.clientName"));
+    clientEmailLabel.setText(languages.getString("label.clientEmail"));
+    clientPrefHairColorLabel.setText(languages.getString("label.preferredHairColor"));
+    activeStatusLabel.setText(languages.getString("label.activeStatus"));
+    stateProvLabel.setText(languages.getString("label.stateProvince"));
+    countryLabel.setText(languages.getString("label.country"));
+    postalCodeLabel.setText(languages.getString("label.postalCode"));
+    clientNameColumn.setText(languages.getString("label.clientName"));
+    clientEmailColumn.setText(languages.getString("label.clientEmail"));
+    hairColorColumn.setText(languages.getString("label.preferredHairColor"));
+    activeStatusColumn.setText(languages.getString("label.activeStatus"));
+    stateProvColumn.setText(languages.getString("label.stateProvince"));
+    clientCountryColumn.setText(languages.getString("label.country"));
+    clientPostalCodeColumn.setText(languages.getString("label.postalCode"));
+    addButton.setText(languages.getString("button.addButton"));
+    editButton.setText(languages.getString("button.editButton"));
+    deleteButton.setText(languages.getString("button.deleteButton"));
+    backButton.setText(languages.getString("button.backButton"));
+    clearFieldsButton.setText(languages.getString("button.clearFieldsButton"));
     }
 
     /**

@@ -31,6 +31,10 @@ public class utilityFunctions {
     public static void warningAlert(String text) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Warning");
+        Locale locale = Locale.getDefault();
+        if (locale.equals(Locale.forLanguageTag("es-ES"))) {
+            alert.setTitle("Advertencia");
+        }
         alert.setContentText(text);
         alert.showAndWait();
     }

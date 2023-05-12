@@ -23,6 +23,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
@@ -95,6 +96,36 @@ public class appointmentsController implements Initializable{
     public RadioButton monthRadioButton;
     @FXML
     public RadioButton allRadioButton;
+    @FXML
+    public Label appointmentsHeaderLabel;
+    @FXML
+    public Label apptIdLabel;
+    @FXML
+    public Label apptTitleLabel;
+    @FXML
+    public Label apptDescriptionLabel;
+    @FXML
+    public Label apptLocationLabel;
+    @FXML
+    public Label apptStylistLabel;
+    @FXML
+    public Label apptTypeLabel;
+    @FXML
+    public Label apptClientIdLabel;
+    @FXML
+    public Label apptStartDateLabel;
+    @FXML
+    public Label apptStartHourLabel;
+    @FXML
+    public Label apptStartMinuteLabel;
+    @FXML
+    public Label apptEndDateLabel;
+    @FXML
+    public Label apptEndHourLabel;
+    @FXML
+    public Label apptEndMinuteLabel;
+    @FXML
+    public Label apptFilterLabel;
 
     /**
      * Lambda expression is used to incorporate a listener on the appointment that is selected within the table. Once an
@@ -109,7 +140,8 @@ public class appointmentsController implements Initializable{
         } catch (SQLException i) {
             throw new RuntimeException(i);
         }
-    //for (appointmentsModel apt : allAppointments) {
+
+        //for (appointmentsModel apt : allAppointments) {
         //apt.apptStart = utilityFunctions.convertLocalTime(apt.getApptStart());
         //apt.apptEnd = utilityFunctions.convertLocalTime(apt.getApptEnd());
     //}
@@ -124,6 +156,44 @@ public class appointmentsController implements Initializable{
     apptStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
     apptEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
     apptClientIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptClientId"));
+
+    //setting language
+    utilityFunctions.localeSet();
+    ResourceBundle languages = ResourceBundle.getBundle("src.Bundle", Locale.getDefault());
+    monthRadioButton.setText(languages.getString("button.monthRadioButton"));
+    weekRadioButton.setText(languages.getString("button.weekRadioButton"));
+    allRadioButton.setText(languages.getString("button.allRadioButton"));
+    addButton.setText(languages.getString("button.addButton"));
+    editButton.setText(languages.getString("button.editButton"));
+    deleteButton.setText(languages.getString("button.deleteButton"));
+    backButton.setText(languages.getString("button.backButton"));
+    clearFieldsButton.setText(languages.getString("button.clearFieldsButton"));
+    appointmentsHeaderLabel.setText(languages.getString("label.appointmentsHeaderLabel"));
+    apptIdLabel.setText(languages.getString("label.apptIdLabel"));
+    apptTitleLabel.setText(languages.getString("label.apptTitleLabel"));
+    apptDescriptionLabel.setText(languages.getString("label.apptDescriptionLabel"));
+    apptLocationLabel.setText(languages.getString("label.apptLocationLabel"));
+    apptStylistLabel.setText(languages.getString("label.apptStylistLabel"));
+    apptTypeLabel.setText(languages.getString("label.apptTypeLabel"));
+    apptClientIdLabel.setText(languages.getString("label.apptClientIdLabel"));
+    apptStartDateLabel.setText(languages.getString("label.apptStartDateLabel"));
+    apptStartHourLabel.setText(languages.getString("label.apptStartHourLabel"));
+    apptStartMinuteLabel.setText(languages.getString("label.apptStartMinuteLabel"));
+    apptEndDateLabel.setText(languages.getString("label.apptEndDateLabel"));
+    apptEndHourLabel.setText(languages.getString("label.apptEndHourLabel"));
+    apptEndMinuteLabel.setText(languages.getString("label.apptEndMinuteLabel"));
+    apptFilterLabel.setText(languages.getString("label.apptFilterLabel"));
+    apptIdColumn.setText(languages.getString("tableColumn.apptIdColumn"));
+    apptTitleColumn.setText(languages.getString("tableColumn.apptTitleColumn"));
+    apptDescColumn.setText(languages.getString("tableColumn.apptDescColumn"));
+    apptLocationColumn.setText(languages.getString("tableColumn.apptLocationColumn"));
+    apptStylistColumn.setText(languages.getString("tableColumn.apptStylistColumn"));
+    apptTypeColumn.setText(languages.getString("tableColumn.apptTypeColumn"));
+    apptStartDateColumn.setText(languages.getString("tableColumn.apptStartDateColumn"));
+    apptEndDateColumn.setText(languages.getString("tableColumn.apptEndDateColumn"));
+    apptClientIdColumn.setText(languages.getString("tableColumn.apptClientIdColumn"));
+    apptIdField.setPromptText(languages.getString("field.apptIdField"));
+
 
     //Lambda listener used to listen for selection of fields and update fields as necessary
     apptTable.getSelectionModel().selectedItemProperty().addListener((origEntry, oldEntry, newEntry) -> {
