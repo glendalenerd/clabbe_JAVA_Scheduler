@@ -136,6 +136,23 @@ public class utilityFunctions {
      * business hours or on a holiday
      */
     public static boolean businessHourCheck(LocalDateTime completeStart, LocalDateTime completeEnd) {
+        Locale locale = Locale.getDefault();
+        String businessHourText = "This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST";
+        String thanksGivingText = "The business is closed on Thanksgiving day and the day after";
+        String julyFourthText = "The business is closed on the 4th of July";
+        String newYearsText = "The business is closed on New Year's Day";
+        String julyFourthFridayText = "This business is closed on Friday in observance of the 4th of July holiday";
+        String newYearsMondayText = "This business is closed on Monday in observance of New Year's day";
+
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            businessHourText = "Esta cita cae fuera del horario regular de 8 a. m. a 10 p. m. MST";
+            thanksGivingText = "El negocio está cerrado el día de Acción de Gracias y el día siguiente.";
+            julyFourthText = "El negocio está cerrado el 4 de julio.";
+            newYearsText = "El negocio está cerrado el día de Año Nuevo.";
+            julyFourthFridayText = "Este negocio está cerrado el viernes en observancia del feriado del 4 de julio.";
+            newYearsMondayText = "Este negocio está cerrado los lunes en conmemoración del día de Año Nuevo.";
+        }
+
         LocalDateTime universalStart = utilityFunctions.getUniversalTime(completeStart);
         LocalDateTime universalEnd = utilityFunctions.getUniversalTime(completeEnd);
         LocalDateTime businessTimeStart = utilityFunctions.getLocalBusTime(universalStart);
@@ -160,37 +177,37 @@ public class utilityFunctions {
             newYearsIsOnWeekend = true;
         }
         if (businessTimeStart.toLocalTime().isBefore(officeOpenTime) || businessTimeStart.toLocalTime().isAfter(officeCloseTime)) {
-            utilityFunctions.warningAlert("This Appointment Falls Outside of Regular Hours of 8AM to 10PM MST");
+            utilityFunctions.warningAlert(businessHourText);
             return false;
         }
         if (completeStart.toLocalDate().isEqual(tGHoliday) || completeStart.toLocalDate().isEqual(tGDayAfter)) {
-            utilityFunctions.warningAlert("The business is closed on Thanksgiving day and the day after");
+            utilityFunctions.warningAlert(thanksGivingText);
             return false;
         }
         if (completeStart.toLocalDate().isEqual(fourthHoliday) && julyFourthIsOnWeekend == false) {
-            utilityFunctions.warningAlert("The business is closed on the 4th of July");
+            utilityFunctions.warningAlert(julyFourthText);
             return false;
         }
         if (completeStart.toLocalDate().isEqual(newYearHoliday) && newYearsIsOnWeekend == false) {
-            utilityFunctions.warningAlert("The business is closed on New Years Day");
+            utilityFunctions.warningAlert(newYearsText);
             return false;
         }
         if (julyFourthIsOnWeekend) {
             if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 7, 3))) {
-                utilityFunctions.warningAlert("This business is closed on Friday in observance of the 4th of July holiday");
+                utilityFunctions.warningAlert(julyFourthFridayText);
                 return false;
             }
         }
         if (newYearsIsOnWeekend) {
             if (newYearHoliday.getDayOfWeek() == DayOfWeek.SATURDAY){
                 if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 1, 3))) {
-                    utilityFunctions.warningAlert("This business is closed on Monday in observance of New Years day");
+                    utilityFunctions.warningAlert(newYearsMondayText);
                     return false;
                 }
             }
             if (newYearHoliday.getDayOfWeek() == DayOfWeek.SUNDAY){
                 if (completeStart.toLocalDate().isEqual(LocalDate.of(completeStart.getYear(), 1, 2))) {
-                    utilityFunctions.warningAlert("This business is closed on Monday in observance of New Years day");
+                    utilityFunctions.warningAlert(newYearsMondayText);
                     return false;
                 }
             }

@@ -75,12 +75,20 @@ public class reportsController implements Initializable {
      * @throws SQLException
      */
     public void reportForClients() throws SQLException {
+        Locale locale = Locale.getDefault();
         String canadaCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'Canada'";
         String uSCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'United States'";
         String spainCountryQuery = "SELECT DISTINCT name FROM client WHERE country = 'Spain'";
         ResultSet canadaReportQuery = utilityFunctions.DBQuery(canadaCountryQuery);
-        clientsPerCountry.appendText("Clients that reside in Canada:");
+        String canadaText = "Clients that reside in Canada:";
+        String unitedStatesText = "Clients that reside in the United States:";
+        String spainText = "Clients that reside in Spain:";
         if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            canadaText = "Clientes que residen en Canadá:";
+            unitedStatesText = "Clientes que residen en los Estados Unidos:";
+            spainText = "Clientes que residen en España:";
+        }
+        clientsPerCountry.appendText(canadaText);
         clientsPerCountry.appendText("\n");
         while (canadaReportQuery.next()) {
             clientsPerCountry.appendText(canadaReportQuery.getString("name"));
@@ -88,7 +96,7 @@ public class reportsController implements Initializable {
         }
         clientsPerCountry.appendText("\n");
         ResultSet uSReportQuery = utilityFunctions.DBQuery(uSCountryQuery);
-        clientsPerCountry.appendText("Clients that reside in the United States:");
+        clientsPerCountry.appendText(unitedStatesText);
         clientsPerCountry.appendText("\n");
         while (uSReportQuery.next()) {
             clientsPerCountry.appendText(uSReportQuery.getString("name"));
@@ -96,7 +104,7 @@ public class reportsController implements Initializable {
         }
         clientsPerCountry.appendText("\n");
         ResultSet spainReportQuery = utilityFunctions.DBQuery(spainCountryQuery);
-        clientsPerCountry.appendText("Clients that reside in Spain:");
+        clientsPerCountry.appendText(spainText);
         clientsPerCountry.appendText("\n");
         while (spainReportQuery.next()) {
             clientsPerCountry.appendText(spainReportQuery.getString("name"));
@@ -110,13 +118,22 @@ public class reportsController implements Initializable {
      * @throws SQLException
      */
     public void reportForAppointments() throws SQLException {
+        Locale locale = Locale.getDefault();
+        String countText = "Count: ";
+        String weekText = "Week: ";
+        String typeText = "Type: ";
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            countText = "Contar: ";
+            weekText = "Semana: ";
+            typeText = "Tipo: ";
+        }
         String apptSelectQuery = "SELECT count(*) as 'Number', week(start) AS 'Week',type AS 'Type' FROM appt " +
                 "GROUP BY start,type;";
         ResultSet apptReportQuery = utilityFunctions.DBQuery(apptSelectQuery);
         while (apptReportQuery.next()) {
-            String count = "Count: "+apptReportQuery.getString("Number");
-            String week = "Week: "+apptReportQuery.getString("Week");
-            String type = "Type: "+apptReportQuery.getString("Type");
+            String count = countText+apptReportQuery.getString("Number");
+            String week = weekText+apptReportQuery.getString("Week");
+            String type = typeText+apptReportQuery.getString("Type");
             clientApptsText.appendText("-------");
             clientApptsText.appendText("\n");
             clientApptsText.appendText(String.format("%-25s%-25s%-25s", count, week, type));
@@ -129,13 +146,33 @@ public class reportsController implements Initializable {
      * @throws SQLException
      */
     public void reportForStylist() throws SQLException {
+        Locale locale = Locale.getDefault();
+        String apptTitleText = "Appointment Schedule For ";
+        String apptIdText = "Appt ID: ";
+        String titleText = "Title: ";
+        String descriptionText = "Description: ";
+        String locationText = "Location: ";
+        String typeText = "Type: ";
+        String startText = "Start: ";
+        String endText = "End: ";
+        String clientIdText = "Client ID: ";
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            apptTitleText = "Calendario de citas para ";
+            apptIdText = "ID de la cita: ";
+            titleText = "Título: ";
+            descriptionText = "Descripción: ";
+            locationText = "Ubicación: ";
+            typeText = "Tipo: ";
+            startText = "Comenzar: ";
+            endText = "Fin: ";
+            clientIdText = "Identificación del cliente: ";
+        }
         stylistList = stylistQueries.getStylistList();
         for (stylistModel stylist : stylistList) {
             stylistIdsList.add(stylist.getStylistId());
         }
         for (Integer stylistId : stylistIdsList) {
             stylistSchedules.appendText("\n");
-            String apptTitleText = "Appointment Schedule For ";
             String stylistName = stylistQueries.getStylistName(stylistId);
             stylistSchedules.appendText(apptTitleText+stylistName+":");
             stylistSchedules.appendText("\n");
@@ -143,14 +180,14 @@ public class reportsController implements Initializable {
                     "FROM appt WHERE stylid = ";
             ResultSet stylistAppts = utilityFunctions.DBQuery(stylistInfoQuery+stylistId);
             while (stylistAppts.next()) {
-                String apptId = "Appt ID: " + stylistAppts.getString("idappt");
-                String title = "Title: " + stylistAppts.getString("titlle");
-                String description = "Description: " + stylistAppts.getString("descr");
-                String location = "Location: " + stylistAppts.getString("location");
-                String type = "Type: " + stylistAppts.getString("type");
-                String start = "Start: " + stylistAppts.getString("start");
-                String end = "End: " + stylistAppts.getString("end");
-                String clientId = "Client ID: "+stylistAppts.getString("clientid");
+                String apptId = apptIdText + stylistAppts.getString("idappt");
+                String title = titleText + stylistAppts.getString("titlle");
+                String description = descriptionText + stylistAppts.getString("descr");
+                String location = locationText + stylistAppts.getString("location");
+                String type = typeText + stylistAppts.getString("type");
+                String start = startText + stylistAppts.getString("start");
+                String end = endText + stylistAppts.getString("end");
+                String clientId = clientIdText +stylistAppts.getString("clientid");
                 //stylistSchedules.appendText("-------");
                 //stylistSchedules.appendText("\n");
                 stylistSchedules.appendText(String.format("%-20s%-30s%-35s%-30s%-35s%-35s%-35s%-35s", apptId, title,

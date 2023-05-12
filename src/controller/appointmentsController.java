@@ -141,10 +141,6 @@ public class appointmentsController implements Initializable{
             throw new RuntimeException(i);
         }
 
-        //for (appointmentsModel apt : allAppointments) {
-        //apt.apptStart = utilityFunctions.convertLocalTime(apt.getApptStart());
-        //apt.apptEnd = utilityFunctions.convertLocalTime(apt.getApptEnd());
-    //}
     apptTable.setItems(allAppointments);
     apptTable.refresh();
     apptIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
@@ -219,16 +215,7 @@ public class appointmentsController implements Initializable{
     aptStartMinuteField.getItems().addAll(minuteChoices);
     apptEndHourField.getItems().addAll(hourChoices);
     apptEndMinuteField.getItems().addAll(minuteChoices);
-        //try {
-            //stylistChoices.setAll(stylistQueries.getStylistList());
-            //for (stylistModel s : stylistChoices) {
-                //stylistNamesList.add(s.getStylistName());
-                //System.out.println(s.getStylistId());
-            //}
-                //apptStylistField.getItems().addAll(stylistNamesList);
-        //} catch (SQLException e) {
-            //throw new RuntimeException(e);
-        //}
+
         try {
             stylistChoices.setAll(stylistQueries.getStylistList());
             for (stylistModel s : stylistChoices) {
@@ -381,12 +368,21 @@ public class appointmentsController implements Initializable{
      * @throws SQLException SQL exception handler
      */
     public void deleteAppointment() throws SQLException {
+        Locale locale = Locale.getDefault();
+        String apptIdText = "Appointment ID ";
+        String typeText = " , with type: ";
+        String deletedText = " was deleted";
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            apptIdText = "Identificación de cita ";
+            typeText = " , con tipo: ";
+            deletedText = " fué borrado";
+        }
         appointmentsModel selectedAppts = apptTable.getSelectionModel().getSelectedItem();
         Integer apptToDelete = selectedAppts.getApptId();
         String deleteCommand = "DELETE FROM appt WHERE idappt="+apptToDelete;
         utilityFunctions.DBExec(deleteCommand);
-        utilityFunctions.warningAlert("Appointment ID "+selectedAppts.getApptId()+" , with type: "+
-                apptTypeField.getText()+" was deleted");
+        utilityFunctions.warningAlert(apptIdText+selectedAppts.getApptId()+typeText+
+                apptTypeField.getText()+deletedText);
         allAppointments.setAll(appointmentQueries.getAppointmentsList());
         clearFields();
         apptTable.refresh();

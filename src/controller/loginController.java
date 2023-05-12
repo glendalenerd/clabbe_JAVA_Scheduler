@@ -80,7 +80,12 @@ public class loginController implements Initializable {
         String userName = userField.getText();
         String password = passField.getText();
         if (userName.isEmpty() || password.isEmpty()) {
-            utilityFunctions.warningAlert("User or Password field is empty");
+            if (locale.equals(Locale.forLanguageTag("es-ES"))){
+                utilityFunctions.warningAlert("El campo Usuario o Contraseña está vacío");
+            }
+            else {
+                utilityFunctions.warningAlert("User or Password field is empty");
+            }
             logRecorder.logRecord(userName, password, false);
         }
         else {
@@ -96,7 +101,6 @@ public class loginController implements Initializable {
                 for (LocalDateTime startTime : apptStartTimes) {
                     Timestamp start = Timestamp.valueOf(startTime);
                     if (Math.abs(start.getTime()-currentTime.getTime()) < TimeUnit.MINUTES.toMillis(15)) {
-                        //System.out.println("it's there!");
                         oncomingAppt = true;
                     }
 
@@ -122,14 +126,15 @@ public class loginController implements Initializable {
                 logRecorder.logRecord(userName, password, true);
             }
             else {
-                utilityFunctions.warningAlert("Invalid Credentials");
+                if (locale.equals(Locale.forLanguageTag("es-ES"))){
+                    utilityFunctions.warningAlert("Credenciales no válidas");
+                }
+                else{
+                    utilityFunctions.warningAlert("Invalid Credentials");
+                }
                 logRecorder.logRecord(userName, password,false);
             }
-
-
         }
-
-
 
     }
 

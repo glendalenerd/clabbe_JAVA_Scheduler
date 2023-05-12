@@ -186,6 +186,13 @@ public class clientsController implements Initializable {
      * @throws SQLException SQL exception handler
      */
     public void editClient() throws SQLException {
+        String clientDeleteAlertText = "Client's appointments must be deleted before setting to inactive";
+        String clientInactiveText = "Client has been set to inactive";
+        Locale locale = Locale.getDefault();
+        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+            clientDeleteAlertText = "Las citas del cliente deben eliminarse antes de configurarse como inactivas";
+            clientInactiveText = "El cliente se ha establecido en inactivo";
+        }
         clientModel previousClient = clientTable.getSelectionModel().getSelectedItem();
         clientModel editClient = new clientModel(
                 previousClient.getClientId(), clientNameField.getText(), emailField.getText(), activeStatusBox.isSelected(),
@@ -194,11 +201,11 @@ public class clientsController implements Initializable {
         );
         if (activeStatusBox.isSelected() == false) {
             if (!clientQueries.getClientAppts(previousClient.getClientId()).isEmpty()) {
-                utilityFunctions.warningAlert("Client's appointments must be deleted before setting to inactive");
+                utilityFunctions.warningAlert(clientDeleteAlertText);
                 activeStatusBox.setSelected(true);
             }
             else {
-                utilityFunctions.warningAlert("Client has been set to inactive");
+                utilityFunctions.warningAlert(clientInactiveText);
                 clientQueries.editClient(editClient);
                 clearFields();
                 allClients.setAll(clientQueries.getClientList());
