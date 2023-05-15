@@ -126,7 +126,7 @@ public class loginController implements Initializable {
                 }
                 else {
                     if (locale.equals(Locale.forLanguageTag("es-ES"))){
-                        utilityFunctions.warningAlert("Hay citas a partir de los próximos 15 minutos");
+                        utilityFunctions.warningAlert("Hay citas a partir de los próximos 15 minutos:");
                         for (String apptData : onComingStartTimes) {
                             utilityFunctions.warningAlert(apptData);
                         }
