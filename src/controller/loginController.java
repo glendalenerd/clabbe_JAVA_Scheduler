@@ -75,6 +75,7 @@ public class loginController implements Initializable {
      * @throws SQLException
      */
     public void loginButtonClick(ActionEvent click) throws IOException, SQLException {
+        //String startTimeQuery = "";
         Locale locale = Locale.getDefault();
         System.out.println(Locale.getDefault());
         String userName = userField.getText();
@@ -92,15 +93,25 @@ public class loginController implements Initializable {
             if (userQueries.loginVerify(userName, password) > -1) {
                 Timestamp currentTime = Timestamp.valueOf(LocalDateTime.now());
                 List<LocalDateTime> apptStartTimes = new ArrayList<>();
+                List<String> onComingStartTimes = new ArrayList<>();
                 boolean oncomingAppt = false;
                 loginSuccess = new userModel(userName, password, userQueries.fetchUserId(userName));
                 ObservableList<appointmentsModel> appointments = appointmentQueries.getAppointmentsList();
                 for (appointmentsModel a : appointments) {
                     apptStartTimes.add(a.getApptStart());
                 }
-                for (LocalDateTime startTime : apptStartTimes) {
-                    Timestamp start = Timestamp.valueOf(startTime);
+                for (appointmentsModel a : appointments) {
+                    Timestamp start = Timestamp.valueOf(a.getApptStart());
                     if (Math.abs(start.getTime()-currentTime.getTime()) < TimeUnit.MINUTES.toMillis(15)) {
+                        if (locale.equals(Locale.forLanguageTag("es-ES"))){
+                            onComingStartTimes.add("Identificación de la aplicación "+
+                                    a.getApptId()+", con la siguiente fecha y hora\nde inicio: "+ a.getApptStart()+
+                                    ", comienza dentro de\nlos próximos 15 minutos.");
+                        }
+                        else {
+                            onComingStartTimes.add("Appt ID "+a.getApptId()+", with the following start date and time: "+
+                                    a.getApptStart()+", is starting within the next 15 minutes.");
+                        }
                         oncomingAppt = true;
                     }
 
@@ -116,12 +127,17 @@ public class loginController implements Initializable {
                 else {
                     if (locale.equals(Locale.forLanguageTag("es-ES"))){
                         utilityFunctions.warningAlert("Hay citas a partir de los próximos 15 minutos");
+                        for (String apptData : onComingStartTimes) {
+                            utilityFunctions.warningAlert(apptData);
+                        }
                     }
                     else {
-                        utilityFunctions.warningAlert("There are appointments starting within the next 15 minutes");
+                        utilityFunctions.warningAlert("There are appointments starting within the next 15 minutes:");
+                        for (String apptData : onComingStartTimes) {
+                            utilityFunctions.warningAlert(apptData);
+                        }
                     }
                 }
-                //List<Integer> currentAppts = userQueries.
                 utilityFunctions.menuOpen(click, "../view/menu.fxml");
                 logRecorder.logRecord(userName, password, true);
             }
