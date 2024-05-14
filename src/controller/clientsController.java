@@ -81,6 +81,8 @@ public class clientsController implements Initializable {
     public Label countryLabel;
     @FXML
     public Label postalCodeLabel;
+    @FXML
+    private TextField clientSearch;
 
 
 
@@ -145,6 +147,11 @@ public class clientsController implements Initializable {
     deleteButton.setText(languages.getString("button.deleteButton"));
     backButton.setText(languages.getString("button.backButton"));
     clearFieldsButton.setText(languages.getString("button.clearFieldsButton"));
+
+    clientSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+        searchClients();
+    });
+
     }
 
     /**
@@ -159,6 +166,28 @@ public class clientsController implements Initializable {
         stateProvField.clear();
         postalCodeField.clear();
     }
+
+    public void searchClients() {
+        String searchText = clientSearch.getText().trim().toLowerCase();
+        // filtered list to hold search results
+        ObservableList<clientModel> filteredList = FXCollections.observableArrayList();
+        // client loop and checking if there are matches to the search criteria
+        for (clientModel client : allClients) {
+            String activeStatusString = String.valueOf(client.getActiveStatus());
+            if (client.getClientName().toLowerCase().contains(searchText) ||
+                    client.getClientPrefHairColor().toLowerCase().contains(searchText) ||
+                    client.getClientEmail().toLowerCase().contains(searchText) ||
+                    client.getClientStateProv().toLowerCase().contains(searchText) ||
+                    activeStatusString.contains(searchText) ||
+                    client.getClientCountry().toLowerCase().contains(searchText) ||
+                    client.getClientZipCode().toLowerCase().contains(searchText)) {
+                filteredList.add(client);
+            }
+        }
+        // table view updated with filtered list
+        clientTable.setItems(filteredList);
+    }
+
 
     /**
      * Takes all inputs provided from the user on the clients screen and creates a new client.
@@ -178,6 +207,7 @@ public class clientsController implements Initializable {
         clearFields();
         allClients.setAll(clientQueries.getClientList());
         clientTable.refresh();
+        searchClients();
     }
 
     /**
@@ -230,6 +260,7 @@ public class clientsController implements Initializable {
         allClients.setAll(clientQueries.getClientList());
         clearFields();
         clientTable.refresh();
+        searchClients();
     }
 
     public void menuReturn(ActionEvent click) throws IOException {
